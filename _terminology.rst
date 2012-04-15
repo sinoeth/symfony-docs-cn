@@ -1,8 +1,14 @@
 .. |framework| replace:: 架构
+.. |project| replace:: 项目
+.. |``Kernel``| replace:: 内核
+.. |domain| replace:: 域
 .. |*framework*| replace:: *架构*
 .. |*Symfony2 framework*| replace:: *Symfony2 架构*
 .. |application| replace:: 应用
 .. |app| replace:: 应用
+.. |model| replace:: 模型
+.. |view| replace:: 显示
+.. |layout| replace:: 布局
 .. |controller| replace:: 控制器
 .. |action| replace:: 行为
 .. |template| replace:: 模板
@@ -20,6 +26,7 @@
 .. |HTTP request| replace:: HTTP 请求
 .. |HTTP response| replace:: HTTP 应答
 .. |syntax| replace:: 句法规则
+.. |extend| replace:: 扩展
 .. |web| replace:: 网站
 .. |response| replace:: 应答[response]
 .. |``Accept``| replace:: ``接受[Accept]``
@@ -40,6 +47,8 @@
 .. |Common Media Types| replace:: 通用媒体类型[Common Media Types]
 .. |web development| replace:: 网页开发
 .. |request headers| replace:: 请求的头信息[request headers]
+.. |rewrite| replace:: 重写
+
 .. |Retrieve the resource from the server| replace:: 从服务器获取资源
 .. |Create a resource on the server|       replace:: 在服务器上创建一个资源 
 .. |Update the resource on the server|     replace:: 更新服务器上的资源
@@ -47,3 +56,7 @@
 .. |executes| replace:: 执行
 .. |:doc:`routing chapter</book/routing>`| replace:: :doc:`路由</book/routing>`
 .. |:doc:`controller chapter</book/controller>`| replace:: :doc:`控制器</book/controller>`
+.. |**No error-checking**| replace:: **没有错误检查**
+.. |**Poor organization**| replace:: 组织结构差
+.. |**Difficult to reuse code**| replace:: 代码重用困难
+.. |injection| replace:: 注入式
