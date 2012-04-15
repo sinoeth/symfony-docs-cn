@@ -1,30 +1,25 @@
-How to Create and store a Symfony2 Project in git
-=================================================
+如何在 git 中创建和存储 Symfony2 项目
+==========================
 
-.. tip::
+.. 技巧::
 
-    Though this entry is specifically about git, the same generic principles
-    will apply if you're storing your project in Subversion.
+             该文档特别介绍 git， 如果你使用 Subversion 存储项目通用原则是相同的。
 
-Once you've read through :doc:`/book/page_creation` and become familiar with
-using Symfony, you'll no-doubt be ready to start your own project. In this
-cookbook article, you'll learn the best way to start a new Symfony2 project
-that's stored using the `git`_ source control management system.
+在您阅读过 :doc:`/book/page_creation` 并且熟悉 Symfony 使用，您一定贮备好开始您自己的项目。  
+在本 菜谱 文章中， 你将学会开始新  Symfony2 项目的最佳方法， 也就是使用 `git`_ 代码管理控制系统。
 
-Initial Project Setup
----------------------
+建立出示项目
+------
 
-To get started, you'll need to download Symfony and initialize your local
-git repository:
+开始之前，您需要下载 Symfony 并初始化本地  git 版本库：、
 
-1. Download the `Symfony2 Standard Edition`_ without vendors.
+1. 下载不包含 vendors 的 `Symfony2 Standard Edition`_ 。
 
-2. Unzip/untar the distribution. It will create a folder called Symfony with
-   your new project structure, config files, etc. Rename it to whatever you like.
+2. Unzip/untar 下载版本。 包括你的新项目、配置文件等内容，名为 Symfony 的文件夹被创建。
+         根据你的需要将其重命名。
 
-3. Create a new file called ``.gitignore`` at the root of your new project
-   (e.g. next to the ``composer.json`` file) and paste the following into it. Files
-   matching these patterns will be ignored by git:
+3. 在你的新项目的根目录创建一个名为 ``.gitignore`` 的文件
+   （例如： 在 ``composer.json`` 所在目录）并且复制如下内容。 符合下述表述的文件将被 git 忽略：
 
    .. code-block:: text
 
@@ -35,80 +30,70 @@ git repository:
         /vendor/  
         /app/config/parameters.yml
 
-.. tip::
+.. 技巧::
 
-   You may also want to create a .gitignore file that can be used system-wide,
-   in which case, you can find more information here: `Github .gitignore`_
-   This way you can exclude files/folders often used by your IDE for all of your projects.
+         您可能觉得有必要建立一个使用与全系统的  .gitignore 文件，
+         你可以在 `Github .gitignore`_ 找到相关信息
+         在这里您可以排除经常被 IDE 用到的所有项目 需要排除的文件和文件夹
 
-4. Copy ``app/config/parameters.yml`` to ``app/config/parameters.yml.dist``.
-   The ``parameters.yml`` file is ignored by git (see above) so that machine-specific
-   settings like database passwords aren't committed. By creating the ``parameters.yml.dist``
-   file, new developers can quickly clone the project, copy this file to
-   ``parameters.yml``, customize it, and start developing.
+4. 复制 ``app/config/parameters.yml`` 为 ``app/config/parameters.yml.dist``.
+   ``parameters.yml`` 文件会被 git （如上文规定） 忽略，这样数据库密码之类的信息就不会被提交 （commit）
+       通过建立 ``parameters.yml.dist`` 
+       文件，新开发者可以快速复制项目，拷贝该文件为
+   ``parameters.yml``，加以修改，开始开发工作。
 
-5. Initialize your git repository:
+5. 初始化你的 git 版本库：
 
    .. code-block:: bash
 
         $ git init
 
-6. Add all of the initial files to git:
+6. 将初始文件添加至 git ：
 
    .. code-block:: bash
 
         $ git add .
 
-7. Create an initial commit with your started project:
+7. 建立您的信项目的初始化提交：
 
    .. code-block:: bash
 
         $ git commit -m "Initial commit"
 
-8. Finally, download all of the third-party vendor libraries by
-   executing composer. For details, see :ref:`installation-updating-vendors`.
+8. 最后下载第三方代码库 （vendor）。请查阅 :ref:`installation-updating-vendors`。
 
-At this point, you have a fully-functional Symfony2 project that's correctly
-committed to git. You can immediately begin development, committing the new
-changes to your git repository.
+至此，您有了一个正确提交至 git 的完整功能 Symfony2
+你可以立刻开始开发工作，将新近更改提交至 git 版本库。
 
-You can continue to follow along with the :doc:`/book/page_creation` chapter
-to learn more about how to configure and develop inside your application.
+你可以跟随 :doc:`/book/page_creation` 一章的讲解
+学习更多关于如何在您的应用中设置和开发。
 
-.. tip::
+.. 技巧::
 
-    The Symfony2 Standard Edition comes with some example functionality. To
-    remove the sample code, follow the instructions on the `Standard Edition Readme`_.
+    Symfony2 标准版（Standard Edition）配有一些功能性范例。 按照 `Standard Edition Readme`_ 的讲解移除这些范例代码。
 
 .. _cookbook-managing-vendor-libraries:
 
 .. include:: _vendor_deps.rst.inc
 
-Vendors and Submodules
-~~~~~~~~~~~~~~~~~~~~~~
+第三方代码库（Vendors）与子模块（Submodules）
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Instead of using the ``composer.json`` system for managing your vendor
-libraries, you may instead choose to use native `git submodules`_. There
-is nothing wrong with this approach, though the ``composer.json`` system
-is the official way to solve this problem and probably much easier to
-deal with. Unlike git submodules, ``Composer`` is smart enough to calculate
-which libraries depend on which other libraries.
+除了使用 ``composer.json`` 系统来管理第三方代码库，您也可以选择使用原始的 `git submodules`_。 
+这样做并没有任何错误， 但是使用 ``composer.json`` 系统是官方解决方案，更加容易一些。
+与 git 子模块相比， 使用 ``Composer`` 能够更加智能地分析出代码库之间的依附关系。
 
-Storing your Project on a Remote Server
----------------------------------------
+在远程服务器上存储您的项目
+-------------
 
-You now have a fully-functional Symfony2 project stored in git. However,
-in most cases, you'll also want to store your project on a remote server
-both for backup purposes, and so that other developers can collaborate on
-the project.
+您现在有了一个存储于 git 的功能完善的 Symfony2 项目。但是，
+很多情形下，出于备份或者与其他开发者进行项目协作的需要，您还想讲您的项目存储到远程服务器上。
 
-The easiest way to store your project on a remote server is via `GitHub`_.
-Public repositories are free, however you will need to pay a monthly fee
-to host private repositories.
+在远程服务器存储您的项目的最简单的方式是通过 `GitHub`_。
+公共版本库（Public repositories）是免费的，但是您需要为私人版本库（Private repositories)按月支付费用。
 
-Alternatively, you can store your git repository on any server by creating
-a `barebones repository`_ and then pushing to it. One library that helps
-manage this is `Gitolite`_.
+除此之外，您可以在任何服务器上建立 `barebones repository`_ 来存储您的 git 版本库。
+用于此管理目的的库是 `Gitolite`_。
 
 .. _`git`: http://git-scm.com/
 .. _`Symfony2 Standard Edition`: http://symfony.com/download

@@ -1,0 +1,6 @@
+http-xkcd.png
+	我的浏览器->xkcd服务器: 嗨，朋友！我能看今天的漫画吗？
+	note right of xkcd服务器: 服务器准备该页面的HTML
+	xkcd服务器->我的浏览器: 伙计，当然！这儿是那个页面的 HTML
+http-xkcd-request.png
+	我的浏览器->xkcd服务器: 嗨，朋友！我能看今天的漫画吗？

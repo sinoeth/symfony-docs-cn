@@ -1,62 +1,49 @@
 .. index::
    single: Symfony2 Fundamentals
 
-Symfony2 and HTTP Fundamentals
-==============================
+Symfony2 与 HTTP 基础
+==================
 
-Congratulations! By learning about Symfony2, you're well on your way towards
-being a more *productive*, *well-rounded* and *popular* web developer (actually,
-you're on your own for the last part). Symfony2 is built to get back to
-basics: to develop tools that let you develop faster and build more robust
-applications, while staying out of your way. Symfony is built on the best
-ideas from many technologies: the tools and concepts you're about to learn
-represent the efforts of thousands of people, over many years. In other words,
-you're not just learning "Symfony", you're learning the fundamentals of the
-web, development best practices, and how to use many amazing new PHP libraries,
-inside or independent of Symfony2. So, get ready.
+恭喜！ 学习 Symfony2 将令你踏上更加  *高产* ， *全面* 和 *受欢迎* 的网页开发者（其实，最终的实现仍取决于你自己）之路。
+Symfony2 构建的基本思想是： 开发出不具负面影响，而令你更快速开发并创建健全应用的工具。
+Symfony 是基于许多技术的优秀思想： 您即将洞悉的，集万千人多年努力的思想和工具。
+换言之，您所学习的不只是  "Symfony"， 您在学习 Symfony2 ，但不局限于 Symfony2 的网页基础，最佳的开发方式以及如何使用不可思议的新 PHP 库。
+好啦！准备好！
 
-True to the Symfony2 philosophy, this chapter begins by explaining the fundamental
-concept common to web development: HTTP. Regardless of your background or
-preferred programming language, this chapter is a **must-read** for everyone.
+这一章将讲解对于 Symfony2 哲学也不能例外的 网页开发通用基本概念： HTTP。无论您的背景和偏好的编程语言，
+这一章对每位学习者都是 **必读**
 
-HTTP is Simple
---------------
+HTTP 很简单
+--------
 
-HTTP (Hypertext Transfer Protocol to the geeks) is a text language that allows
-two machines to communicate with each other. That's it! For example, when
-checking for the latest `xkcd`_ comic, the following (approximate) conversation
-takes place:
+HTTP （学究口中的 Hypertext Transfer Protocol） 是一个令两台机器互相沟通的文本语言
+就是这样！ 例如，在访问 `xkcd`_ 漫画网时，（基本上）如下的会话就发生了：
 
 .. image:: /images/http-xkcd.png
    :align: center
 
-And while the actual language used is a bit more formal, it's still dead-simple.
-HTTP is the term used to describe this simple text-based language. And no
-matter how you develop on the web, the goal of your server is *always* to
-understand simple text requests, and return simple text responses.
+只是实际上使用的语言更加正式一些， 但仍旧异常简单。
+HTTP 就是指这样简单地基于文本的语言。 而且无论您如何开发网页，您的服务器的目标 *总是* 去
+理解简单的文字 |request| ，然后给与简单的文本回复。
 
-Symfony2 is built from the ground-up around that reality. Whether you realize
-it or not, HTTP is something you use everyday. With Symfony2, you'll learn
-how to master it.
+Symfony2 是构建于这个基本的情形。 无论您是否意识到， 您天天都在使用 HTTP。
+跟随 Symfony2，您将掌握它。
 
 .. index::
    single: HTTP; Request-response paradigm
 
-Step1: The Client sends a Request
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+第一步： 客户端发出一个 |request|
+~~~~~~~~~~~~~~~~~~~~~~
 
-Every conversation on the web starts with a *request*. The request is a text
-message created by a client (e.g. a browser, an iPhone app, etc) in a
-special format known as HTTP. The client sends that request to a server,
-and then waits for the response.
+网站的每一个会话都发起自一个  *请求* 。 请求是客户端（比如：一个浏览器，一个 iPhone 应用程序等）创建的一个特殊格式——HTTP 的文本信息。
+客户端把这个请求发送给服务器，之后等待回复。
 
-Take a look at the first part of the interaction (the request) between a
-browser and the xkcd web server:
+来看一下一个浏览器与 xkcd 网站服务器交互的第一个部分——请求：
 
 .. image:: /images/http-xkcd-request.png
    :align: center
 
-In HTTP-speak, this HTTP request would actually look something like this:
+就 HTTP 而言，这个 HTTP 请求看起来是这样的：
 
 .. code-block:: text
 
@@ -65,28 +52,24 @@ In HTTP-speak, this HTTP request would actually look something like this:
     Accept: text/html
     User-Agent: Mozilla/5.0 (Macintosh)
 
-This simple message communicates *everything* necessary about exactly which
-resource the client is requesting. The first line of an HTTP request is the
-most important and contains two things: the URI and the HTTP method.
+这段简单的信息传递了客户请求的确切资源所需要的*一切*
+HTTP 请求第一行是最为重要的，包含着两重信息： URI 和  HTTP 方法。
 
-The URI (e.g. ``/``, ``/contact``, etc) is the unique address or location
-that identifies the resource the client wants. The HTTP method (e.g. ``GET``)
-defines what you want to *do* with the resource. The HTTP methods are the
-*verbs* of the request and define the few common ways that you can act upon
-the resource:
+URI （例如： ``/`` ， ``/contact`` 等）是用于指定客户所需要的资源的唯一地址或者位置。
+HTTP 方法（比如：``GET`` ）定义你要对指定资源*做* 什么。 
+HTTP 方法是请求的 *动作* ，即您可以对资源进行的通用操作：
 
-+----------+---------------------------------------+
-| *GET*    | Retrieve the resource from the server |
-+----------+---------------------------------------+
-| *POST*   | Create a resource on the server       |
-+----------+---------------------------------------+
-| *PUT*    | Update the resource on the server     |
-+----------+---------------------------------------+
-| *DELETE* | Delete the resource from the server   |
-+----------+---------------------------------------+
++----------+-----------------------------------------+
+| *GET*    | |Retrieve the resource from the server| |
++----------+-----------------------------------------+
+| *POST*   | |Create a resource on the server|       |
++----------+-----------------------------------------+
+| *PUT*    | |Update the resource on the server|     |
++----------+-----------------------------------------+
+| *DELETE* | |Delete the resource from the server|   |
++----------+-----------------------------------------+
 
-With this in mind, you can imagine what an HTTP request might look like to
-delete a specific blog entry, for example:
+本着这样的思想，你可以想象用于删除一条博客的 HTTP 请求是怎样的：
 
 .. code-block:: text
 
@@ -94,31 +77,26 @@ delete a specific blog entry, for example:
 
 .. note::
 
-    There are actually nine HTTP methods defined by the HTTP specification,
-    but many of them are not widely used or supported. In reality, many modern
-    browsers don't support the ``PUT`` and ``DELETE`` methods.
+    其实，HTTP 规范规定了 9 种 HTTP 方法
+    但是其中大部分并没有得到广泛应用和支持。实际上，很多现代
+    浏览器都不支持 ``PUT`` 和 ``DELETE`` 方法。
 
-In addition to the first line, an HTTP request invariably contains other
-lines of information called request headers. The headers can supply a wide
-range of information such as the requested ``Host``, the response formats
-the client accepts (``Accept``) and the application the client is using to
-make the request (``User-Agent``). Many other headers exist and can be found
-on Wikipedia's `List of HTTP header fields`_ article.
+在第一行之后，HTTP 请求总是跟随着另外的信息行，被称作请求 |request headers| .
+|header| 用以提供很多信息，例如：请求的 |``Host``| ，客户端接受（ |``Accept``| ）的 |response| 格式，
+以及客户端用以发出 |request| 的应用 （ |``User-Agent``| ）。
+还有很多 |header| 可以在 Wikipedia的文章  `List of HTTP header fields`_ 中找到。
 
-Step 2: The Server returns a Response
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+第2步：服务器返回 |Response|
+~~~~~~~~~~~~~~~~~~~~
 
-Once a server has received the request, it knows exactly which resource the
-client needs (via the URI) and what the client wants to do with that resource
-(via the method). For example, in the case of a GET request, the server
-prepares the resource and returns it in an HTTP response. Consider the response
-from the xkcd web server:
+一旦服务器受到请求，便知晓了客户所需要的确切资源以及客户端希望如何处理该资源（通过 URI ）。
+例如： 收到一个 GET |request| ,服务器准备资源并将其放在 |HTTP response| 当中返回。
+来看一下 xkcd 服务器的 |response| :
 
 .. image:: /images/http-xkcd.png
    :align: center
 
-Translated into HTTP, the response sent back to the browser will look something
-like this: 
+用 HTTP 语言来表述， 返回给浏览器的应答应该大体是这样的： 
 
 .. code-block:: text
 
@@ -131,55 +109,43 @@ like this:
       <!-- HTML for the xkcd comic -->
     </html>
 
-The HTTP response contains the requested resource (the HTML content in this
-case), as well as other information about the response. The first line is
-especially important and contains the HTTP response status code (200 in this
-case). The status code communicates the overall outcome of the request back
-to the client. Was the request successful? Was there an error? Different
-status codes exist that indicate success, an error, or that the client needs
-to do something (e.g. redirect to another page). A full list can be found
-on Wikipedia's `List of HTTP status codes`_ article.
+HTTP |response| 不仅包含请求的资源（ 这个例子中的 HTTP ），也包含了其他关于 |response| 的信息。
+非常重要的第一行包含了 HTTP |response| 状态码 （此例中是200）。状态码传达了 |request| 总体结果给客户端。
+|request| 是否成功？ 放生错误没有？ 不同的状态码标示着：成功、错误以及客户端需要做什么（例如：转到另一页面）。
+完整的列表可以在  Wikipedia 的 `List of HTTP status codes`_ 一文中找到。
 
-Like the request, an HTTP response contains additional pieces of information
-known as HTTP headers. For example, one important HTTP response header is
-``Content-Type``. The body of the same resource could be returned in multiple
-different formats like HTML, XML, or JSON and the ``Content-Type`` header uses
-Internet Media Types like ``text/html`` to tell the client which format is
-being returned. A list of common media types can be found on Wikipedia's 
-`List of common media types`_ article.
+与 |request| 类似，一个 HTTP |response| 也包含着名为 HTTP |header| 的额外信息。
+例如： ``Content-Type`` 就是一个重要的 HTTP |response| |header| 。
+同一资源可以以多种不同的格式被提供： HTML、XML 或者 JSON，而 ``Content-Type`` |header|
+类似于 ``text/html`` 的则用 |Internet Media Types| 告诉客户端返回资源的格式。
+|Common Media Types| 列表可以在 Wikipedia 的 `List of common media types`_ 一文中找到。
 
-Many other headers exist, some of which are very powerful. For example, certain
-headers can be used to create a powerful caching system.
+还有很多其他的 |header| , 而且很多非常有用。 例如：有的 |header| 可以用于生产强大的 |caching| 系统。
 
-Requests, Responses and Web Development
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|request| , |response| 和 |web development|
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This request-response conversation is the fundamental process that drives all
-communication on the web. And as important and powerful as this process is,
-it's inescapably simple.
+|request| - |response| 对话是 |web| 所有对话的基础。
+尽管它是如此的重要和强大，却其实异常简单。
 
-The most important fact is this: regardless of the language you use, the
-type of application you build (web, mobile, JSON API), or the development
-philosophy you follow, the end goal of an application is **always** to understand
-each request and create and return the appropriate response.
+最重要的事实是：无论您使用何种语言，构建了何种类型的应用（web, mobile, JSON API），或是基于怎样的开发思想，
+终极目标 **总是** 理解 |request| 、创建并返回恰当的 |response|
 
-Symfony is architected to match this reality.
+Symfony 就是本着这样的事实构建的。
 
 .. tip::
 
-    To learn more about the HTTP specification, read the original `HTTP 1.1 RFC`_
-    or the `HTTP Bis`_, which is an active effort to clarify the original
-    specification. A great tool to check both the request and response headers
-    while browsing is the `Live HTTP Headers`_ extension for Firefox.
-
+        阅读 `HTTP 1.1 RFC`_ 学习 HTTP 规范，或者很好地解读规范的 `HTTP Bis`_
+        Firefox（火狐浏览器）的扩展 `Live HTTP Headers`_ 是查看 |request| 和 |response| 的利器。
+    
 .. index::
    single: Symfony2 Fundamentals; Requests and responses
 
-Requests and Responses in PHP
+PHP 中的 |request| 和 |response|
 -----------------------------
 
-So how do you interact with the "request" and create a "response" when using
-PHP? In reality, PHP abstracts you a bit from the whole process:
+那么，在使用 PHP 时，如何与 ''|request|'' 交互并创建 "|response|" 呢？
+现实中， PHP 抽象化了整个过程：
 
 .. code-block:: php
 
@@ -191,14 +157,11 @@ PHP? In reality, PHP abstracts you a bit from the whole process:
     echo 'The URI requested is: '.$uri;
     echo 'The value of the "foo" parameter is: '.$foo;
 
-As strange as it sounds, this small application is in fact taking information
-from the HTTP request and using it to create an HTTP response. Instead of
-parsing the raw HTTP request message, PHP prepares superglobal variables
-such as ``$_SERVER`` and ``$_GET`` that contain all the information from
-the request. Similarly, instead of returning the HTTP-formatted text response,
-you can use the ``header()`` function to create response headers and simply
-print out the actual content that will be the content portion of the response
-message. PHP will create a true HTTP response and return it to the client:
+听起来诧异，这个小小的应用其实接收了 |HTTP request| 并且用其构建了 |HTTP response| 。
+PHP 准备了类似于 ``$_SERVER`` 和 ``$_GET`` 的超级全局变量来承载所有 |request| 信息，
+因此没有必要处理原始的 |HTTP request| 信息。 
+同理，可以使用  ``header()`` 函数来创建 |response| |header| ,直接生成 |response| 信息中需要的内容，
+不必书写 HTTP 格式的 |response| 文本。PHP 将创建一个实实在在的 HTTP |response| 并将其返回给客户端：
 
 .. code-block:: text
 
@@ -210,14 +173,12 @@ message. PHP will create a true HTTP response and return it to the client:
     The URI requested is: /testing?foo=symfony
     The value of the "foo" parameter is: symfony
 
-Requests and Responses in Symfony
+Symfony 中的 |request| 和 |response|
 ---------------------------------
 
-Symfony provides an alternative to the raw PHP approach via two classes that
-allow you to interact with the HTTP request and response in an easier way.
-The :class:`Symfony\\Component\\HttpFoundation\\Request` class is a simple
-object-oriented representation of the HTTP request message. With it, you
-have all the request information at your fingertips::
+Symfony 提供了替代 PHP 处理方法的两个 |class| ，可以通过他们更加容易地进行 |HTTP request| 和 |response| 交互。
+:class:`Symfony\\Component\\HttpFoundation\\Request` |class| 简单地将 |HTTP request| 以 |object-oriented| 方式呈现。
+有了它，所有的 |request| 信息都在你的股掌之间::
 
     use Symfony\Component\HttpFoundation\Request;
 
@@ -246,37 +207,28 @@ have all the request information at your fingertips::
     $request->getMethod();          // GET, POST, PUT, DELETE, HEAD
     $request->getLanguages();       // an array of languages the client accepts
 
-As a bonus, the ``Request`` class does a lot of work in the background that
-you'll never need to worry about. For example, the ``isSecure()`` method
-checks the *three* different values in PHP that can indicate whether or not
-the user is connecting via a secured connection (i.e. ``https``).
+不仅如此， ``Request`` |class| 作了很多幕后工作，完全不用你操心。
+例如： ``isSecure()`` |method| 通过检查 PHP 的 *3* 个不同的值来确定用户是否正以安全连接方式进行访问 （例如： ``https`` ）。
 
-.. sidebar:: ParameterBags and Request attributes
+.. sidebar:: |ParameterBags| 和 |request| 属性
 
-    As seen above, the ``$_GET`` and ``$_POST`` variables are accessible via
-    the public ``query`` and ``request`` properties respectively. Each of
-    these objects is a :class:`Symfony\\Component\\HttpFoundation\\ParameterBag`
-    object, which has methods like
-    :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::get`,
-    :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::has`,
-    :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::all` and more.
-    In fact, every public property used in the previous example is some instance
-    of the ParameterBag.
+    如上所见，变量 ``$_GET`` 和 ``$_POST`` 是通过 |public| 属性  ``query`` 和 ``request`` 访问的。
+    他们都是 :class:`Symfony\\Component\\HttpFoundation\\ParameterBag` |object| ，都有如下方法：
+    :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::get` ，
+    :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::has` ，
+    :method:`Symfony\\Component\\HttpFoundation\\ParameterBag::all` 等等。
+    事实上，前面的例子中的所有 |public| ParameterBag 的 |instance|.
     
     .. _book-fundamentals-attributes:
     
-    The Request class also has a public ``attributes`` property, which holds
-    special data related to how the application works internally. For the
-    Symfony2 framework, the ``attributes`` holds the values returned by the
-    matched route, like ``_controller``, ``id`` (if you have an ``{id}``
-    wildcard), and even the name of the matched route (``_route``). The
-    ``attributes`` property exists entirely to be a place where you can
-    prepare and store context-specific information about the request.
+    Request |class| 还有一个 |public| |``attributes``| 用于存放 |application| 内部如何工作的特殊数据。
+    例如： Symfony2 |framework| 的 |``attributes``| 储存对应 |route| 返回的 ``_controller`` ，
+    ``id`` （如果设置了  ``{id}`` 匹配），以及对应的 ``_route`` 。
+    |``attributes``| 的使命就是用于准备和存储 |request| 的 |context-specific| 信息。
     
 
-Symfony also provides a ``Response`` class: a simple PHP representation of
-an HTTP response message. This allows your application to use an object-oriented
-interface to construct the response that needs to be returned to the client::
+Symfony 还提供了一个  ``Response`` |class| : 简单地以 PHP 承载 |HTTP response| 信息
+这样你的 |application| 就可以通过 |object-oriented| 界面来构建需要返回给客户端的 |response|::
 
     use Symfony\Component\HttpFoundation\Response;
     $response = new Response();
@@ -288,39 +240,31 @@ interface to construct the response that needs to be returned to the client::
     // prints the HTTP headers followed by the content
     $response->send();
 
-If Symfony offered nothing else, you would already have a toolkit for easily
-accessing request information and an object-oriented interface for creating
-the response. Even as you learn the many powerful features in Symfony, keep
-in mind that the goal of your application is always *to interpret a request
-and create the appropriate response based on your application logic*.
+不考虑 Symfony 带来的其它功能，你至少已经有了方便访问 |request| 信息的工具包和用于创建 |response| 的 |object-oriented| 界面。
+尽管您将学到很多强大的 Symfony 功能，但不要忘记您的 |application| 的宗旨始终是
+ *解析 |request| 并基于 |application| 逻辑创建恰当的 |response| *
 
 .. tip::
 
-    The ``Request`` and ``Response`` classes are part of a standalone component
-    included with Symfony called ``HttpFoundation``. This component can be
-    used entirely independent of Symfony and also provides classes for handling
-    sessions and file uploads.
+     ``Request`` 和 ``Response`` |class| 是 Symfony 中名为  ``HttpFoundation`` 的独立 |component| 的一部分。
+     该 |component| 可以完全独立于 Symfony 使用，用于提供处理 |session| 和 文件上传的 |class| 。
 
-The Journey from the Request to the Response
---------------------------------------------
+从 |request| 到 |response| 的旅程
+----------------------------
 
-Like HTTP itself, the ``Request`` and ``Response`` objects are pretty simple.
-The hard part of building an application is writing what comes in between.
-In other words, the real work comes in writing the code that interprets the
-request information and creates the response.
+就如同 HTTP 本身， ``Request`` 和 ``Response`` |object| 非常地简单。
+构建 |application| 的困难之处在于编写他们之间的内容。
+换句话来讲，真正的工作在于编写解析 |request| 信息并创建 |response| 的代码。
 
-Your application probably does many things, like sending emails, handling
-form submissions, saving things to a database, rendering HTML pages and protecting
-content with security. How can you manage all of this and still keep your
-code organized and maintainable?
+您的 |application| 或许会做很多事情，比如：发电子邮件、处理提交内容、进行数据库存储、生成 HTML 页面以及保护内容安全。
+您如何才能在确保代码有条不紊且易于维护的前提下做到这一切呢？
 
-Symfony was created to solve these problems so that you don't have to.
+Symfony 就是为了解决这些问题而创造的，您再也不必操心它们。
 
-The Front Controller
-~~~~~~~~~~~~~~~~~~~~
+|front controller|
+~~~~~~~~~~~~~~~~~~
 
-Traditionally, applications were built so that each "page" of a site was
-its own physical file:
+传统方式构建的 |application| ，网站的每个 "页面" 就是它自身的物理文件:
 
 .. code-block:: text
 
@@ -328,42 +272,34 @@ its own physical file:
     contact.php
     blog.php
 
-There are several problems with this approach, including the inflexibility
-of the URLs (what if you wanted to change ``blog.php`` to ``news.php`` without
-breaking all of your links?) and the fact that each file *must* manually
-include some set of core files so that security, database connections and
-the "look" of the site can remain consistent.
+这种做法有一些问题，比如：缺乏 URL 灵活性 （如何在不打破链接的前提下将 ``blog.php`` 改为 ``news.php`` ？），
+为了确保安全、连接数据库以及确保网站的一致外观 *必须* 在每一个文件中手工引用一些列核心文件。
 
-A much better solution is to use a :term:`front controller`: a single PHP
-file that handles every request coming into your application. For example:
+更好的解决方式是应用 :term:|`front controller`|: 处理每个到访您的 |application| 的 |request| 的一个简单的 PHP 文件。 例如：
 
-+------------------------+------------------------+
-| ``/index.php``         | executes ``index.php`` |
-+------------------------+------------------------+
-| ``/index.php/contact`` | executes ``index.php`` |
-+------------------------+------------------------+
-| ``/index.php/blog``    | executes ``index.php`` |
-+------------------------+------------------------+
++------------------------+--------------------------+
+| ``/index.php``         | |executes| ``index.php`` |
++------------------------+--------------------------+
+| ``/index.php/contact`` | |executes| ``index.php`` |
++------------------------+--------------------------+
+| ``/index.php/blog``    | |executes| ``index.php`` |
++------------------------+--------------------------+
 
 .. tip::
 
-    Using Apache's ``mod_rewrite`` (or equivalent with other web servers),
-    the URLs can easily be cleaned up to be just ``/``, ``/contact`` and
-    ``/blog``.
+            使用  Apache ``mod_rewrite`` （或者其他网站服务的类似功能），
+    URL 可以轻松地被清理为 ``/`` 、 ``/contact`` 和 ``/blog`` 。
 
-Now, every request is handled exactly the same. Instead of individual URLs
-executing different PHP files, the front controller is *always* executed,
-and the routing of different URLs to different parts of your application
-is done internally. This solves both problems with the original approach.
-Almost all modern web apps do this - including apps like WordPress.
+这样，每个 |request| 都被同样地处理。 不再是每个 URL 执行不同的 PHP 文件，而是每次 *总是* 执行 |front controller| ，
+在其内部，不同的 URL 被 |routing| 到 |application| 的不同部分。
+这样上文提到的传统做法的两个问题都得到了解决。
+几乎所有现代网络应用都是这样做的 - 包括类似 WordPress 的应用。
 
-Stay Organized
-~~~~~~~~~~~~~~
+确保条例
+~~~~
 
-But inside your front controller, how do you know which page should
-be rendered and how can you render each in a sane way? One way or another, you'll need to
-check the incoming URI and execute different parts of your code depending
-on that value. This can get ugly quickly:
+但是，在您的 |front controller| 内部， 如何获悉应该处理哪个页面，又该如何理智地处理呢？
+无论如何，您都需要查看 URI 并根据其内容来确定执行您的代码的不同部分。 这个工作惊人的快：
 
 .. code-block:: php
 
@@ -381,14 +317,13 @@ on that value. This can get ugly quickly:
     }
     $response->send();
 
-Solving this problem can be difficult. Fortunately it's *exactly* what Symfony
-is designed to do.
+解决这个问题会比较困难。 幸运地是， Symfony *就* 是为解决这个困难设计的。
 
-The Symfony Application Flow
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Symfony |Application| 工作流程
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you let Symfony handle each request, life is much easier. Symfony follows
-the same simple pattern for every request:
+当你将处理 |request| 的工作交给 Symfony ,一切变得容易了。
+Symfony 对于每一个 |request| 都奉行相同的模式：
 
 .. _request-flow-figure:
 
@@ -396,32 +331,27 @@ the same simple pattern for every request:
    :align: center
    :alt: Symfony2 request flow
 
-   Incoming requests are interpreted by the routing and passed to controller
-   functions that return ``Response`` objects.
+   收到的 |request| 被 |routing| 解读并被传递给返回 ``Response`` |object| 的 |controller| 函数。
 
-Each "page" of your site is defined in a routing configuration file that
-maps different URLs to different PHP functions. The job of each PHP function,
-called a :term:`controller`, is to use information from the request - along
-with many other tools Symfony makes available - to create and return a ``Response``
-object. In other words, the controller is where *your* code goes: it's where
-you interpret the request and create a response.
+网站的每个 "页面" 都在 |routing| 配置文件中定义，从而将每个 URL 与不同的 PHP 函数对应起来。 
+每个 PHP 函数，被称为 :term:`controller` ，的工作就是使用 |request| 提供的信息，
+连同 Symfony 提供的一切其他工具，创建并返回一个 ``Response`` |object| 。
+换言之， |controller| 就是 *您* 存代码的地方： 在那里解读 |request| 并创建 |response| 。
 
-It's that easy! Let's review:
+就是这么简单！ 复习一下：
 
-* Each request executes a front controller file;
+* 每个 |request| 执行（同一个） |front controller| 文件；
 
-* The routing system determines which PHP function should be executed based
-  on information from the request and routing configuration you've created;
+* |routing| 系统决定根据 |request| 信息和 |routing| 设置决定执行哪个 PHP 函数；
 
-* The correct PHP function is executed, where your code creates and returns
-  the appropriate ``Response`` object.
+* 执行应执行的 PHP 函数，该函数的 代码创建并返回恰当的  ``Response`` |object| 。
 
-A Symfony Request in Action
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|action| 中处理一个 Symfony |request|
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Without diving into too much detail, let's see this process in action. Suppose
-you want to add a ``/contact`` page to your Symfony application. First, start
-by adding an entry for ``/contact`` to your routing configuration file:
+让我们深入浅出地了解一下 |action| 的工作过程。 
+假设您想要为您的 Symfony |application| 添加一个 ``/contact`` 页面。
+首先，在 |routing| 配置文件中为 ``/contact`` 添加一条 |entry| ：
 
 .. code-block:: yaml
 
@@ -431,14 +361,13 @@ by adding an entry for ``/contact`` to your routing configuration file:
 
 .. note::
 
-   This example uses :doc:`YAML</components/yaml>` to define the routing
-   configuration. Routing configuration can also be written in other formats
-   such as XML or PHP.
+          这个例子使用  :doc:`YAML</components/yaml>` 定义 |routing| 设置。 
+   |routing| 设置还可以使用其他格式来书写，例如： XML 和 PHP。
 
-When someone visits the ``/contact`` page, this route is matched, and the
-specified controller is executed. As you'll learn in the :doc:`routing chapter</book/routing>`,
-the ``AcmeDemoBundle:Main:contact`` string is a short syntax that points to a
-specific PHP method ``contactAction`` inside a class called ``MainController``:
+当 ``/contact`` 页面被访问，该 |route| 被匹配，所指定的 |controller| 被执行。 
+正如您将在 |:doc:`routing chapter</book/routing>`| 一章中学到，
+the ``AcmeDemoBundle:Main:contact`` 字符串是一个指向 ``contactAction`` 
+|class| 之中名为  ``MainController`` 的 PHP |method| 的简单 |syntax| ：
 
 .. code-block:: php
 
@@ -450,90 +379,68 @@ specific PHP method ``contactAction`` inside a class called ``MainController``:
         }
     }
 
-In this very simple example, the controller simply creates a ``Response``
-object with the HTML "<h1>Contact us!</h1>". In the :doc:`controller chapter</book/controller>`,
-you'll learn how a controller can render templates, allowing your "presentation"
-code (i.e. anything that actually writes out HTML) to live in a separate
-template file. This frees up the controller to worry only about the hard
-stuff: interacting with the database, handling submitted data, or sending
-email messages. 
+在这个简单的例子中， |controller| 仅仅建立了一个包含 HTML “<h1>Contact us!</h1>” 的 ``Response`` |object| 。
+在  |:doc:`controller chapter</book/controller>`| 一章中, 您将学到如何使用 |controller| |render| |template| ，
+并且允许从不同的 |template| 文件调用代码（书写 HTML 的一切内容）实现 “呈现” 工作。
+这使得 controller 被解放出来，并专注在难点之上：数据库交互，提交数据处理以及发送邮件信息。 
 
-Symfony2: Build your App, not your Tools.
------------------------------------------
+Symfony2：创建您的 |app| ,而不是您的工具。
+-----------------------------
 
-You now know that the goal of any app is to interpret each incoming request
-and create an appropriate response. As an application grows, it becomes more
-difficult to keep your code organized and maintainable. Invariably, the same
-complex tasks keep coming up over and over again: persisting things to the
-database, rendering and reusing templates, handling form submissions, sending
-emails, validating user input and handling security.
+您已经清楚任何一个 |app| 的目标都是解读收到的 |request| 并创建一个恰当的 |response| 。
+随着 |application| 扩展，确保代码的条理性和维护性的难度不断增加。 不变的是，相同的工作被不断地重复：
+在数据库中存储数据， |render| 和重用 |template| ，处理提交数据，发送电子邮件，验证用户输入并确保安全性。
 
-The good news is that none of these problems is unique. Symfony provides
-a framework full of tools that allow you to build your application, not your
-tools. With Symfony2, nothing is imposed on you: you're free to use the full
-Symfony framework, or just one piece of Symfony all by itself.
+令人欣喜的是，这些问题都是普遍存在的。 Symfony 提供了一个包含各种工具的 |framework| 
+，您可以用它来构建您的 |application| 而无需顾忌工具的创建
+使用 Symfony2 后，您不再有烦恼：你可以自由地使用这个 Symfony |framework| ，或者只是单独使用 Symfony 的一个片断。
 
 .. index::
    single: Symfony2 Components
 
-Standalone Tools: The Symfony2 *Components*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+独立工具： Symfony2: |*component*|
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-So what *is* Symfony2? First, Symfony2 is a collection of over twenty independent
-libraries that can be used inside *any* PHP project. These libraries, called
-the *Symfony2 Components*, contain something useful for almost any situation,
-regardless of how your project is developed. To name a few:
+那么 Symfony2 是什么呢？ 首先， Symfony2 是 20 余个可以在*任何* PHP 项目中使用的独立库文件的集合。
+无论您是怎样开发项目的，在几乎任何情形之下，这些被称为 *Symfony2 |component| *的库都有用武之地。
+举几个例子：
 
-* `HttpFoundation`_ - Contains the ``Request`` and ``Response`` classes, as
-  well as other classes for handling sessions and file uploads;
+* `HttpFoundation`_ - 包含 ``Request`` 、 ``Response`` 和一些其他 |class| 用于处理 |session| 和文件上传；
 
-* `Routing`_ - Powerful and fast routing system that allows you to map a
-  specific URI (e.g. ``/contact``) to some information about how that request
-  should be handled (e.g. execute the ``contactAction()`` method);
+* `Routing`_ - 将特定 URL （例如： ``/contact`` ）映射为
+       如何处理 |request| 的信息（例如执行 ``contactAction()`` |method| ）的强大、快速的 |routing| 系统;
 
-* `Form`_ - A full-featured and flexible framework for creating forms and
-  handling form submissions;
+* `Form`_ - 一个创建表单并且处理提交数的，功能齐全而且灵活的架构；
 
-* `Validator`_ A system for creating rules about data and then validating
-  whether or not user-submitted data follows those rules;
+* `Validator`_ 一个用以创建数据规则，并以之验证用户提交数据的系统；
 
-* `ClassLoader`_ An autoloading library that allows PHP classes to be used
-  without needing to manually ``require`` the files containing those classes;
+* `ClassLoader`_ 无需使用 ``require`` 引用文件的方式就可以自动调用 PHP |class| 的库；
 
-* `Templating`_ A toolkit for rendering templates, handling template inheritance
-  (i.e. a template is decorated with a layout) and performing other common
-  template tasks;
+* `Templating`_ |render| |template| ，处理 |template| 继承（通过布局装饰 |template| ）
+      并且执行其他通用 |template| 工作的工具集；
 
-* `Security`_ - A powerful library for handling all types of security inside
-  an application;
+* `Security`_ - 一个功能强大，处理 |application| 内部所有安全问题的库；
 
-* `Translation`_ A framework for translating strings in your application.
+* `Translation`_ 一个用于翻译 |application| 中字符串的 |framework| 。
 
-Each and every one of these components is decoupled and can be used in *any*
-PHP project, regardless of whether or not you use the Symfony2 framework.
-Every part is made to be used if needed and replaced when necessary.
+无论是否在使用 Symfony2 架构，这些 |component| 都是可以单独地使用于 *任何* PHP 项目之中的。
+任何部分都可根据需要随意调配。
 
-The Full Solution: The Symfony2 *Framework*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+完整的解决方案： The Symfony2 |*framework*|
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-So then, what *is* the Symfony2 *Framework*? The *Symfony2 Framework* is
-a PHP library that accomplishes two distinct tasks:
+那么， Symfony2 |*framework*| *是* 什么呢？ |*Symfony2 framework*| 是一个实现下面两个独立工作的 PHP 库：
 
-#. Provides a selection of components (i.e. the Symfony2 Components) and
-   third-party libraries (e.g. ``Swiftmailer`` for sending emails);
+#. 提供 |component| （Symfony2 |component| ）以及第三方库（例如： 用于发送邮件的 ``Swiftmailer`` ）供选择；
 
-#. Provides sensible configuration and a "glue" library that ties all of these
-   pieces together.
+#. 提供切合实际的配置并将各个部分“粘合”在一起的库。
 
-The goal of the framework is to integrate many independent tools in order
-to provide a consistent experience for the developer. Even the framework
-itself is a Symfony2 bundle (i.e. a plugin) that can be configured or replaced
-entirely.
+|framework| 的目标是将许多独立工具整合起来提供给开发者一个综合体验。
+|framework| 本身就是一个 |bundle| ，可以被配置也可以被完全删除。
 
-Symfony2 provides a powerful set of tools for rapidly developing web applications
-without imposing on your application. Normal users can quickly start development
-by using a Symfony2 distribution, which provides a project skeleton with
-sensible defaults. For more advanced users, the sky is the limit.
+Symfony2 提供了快速开发 |web| |application| 的工具集，丝毫不会增加 |application| 的负担
+通常用户可以快速地使用 Symfony2 进行开发，直接提供了一个默认的合理项目构架。
+对于高端用户来讲，更是天高任鸟飞。
 
 .. _`xkcd`: http://xkcd.com/
 .. _`HTTP 1.1 RFC`: http://www.w3.org/Protocols/rfc2616/rfc2616.html
@@ -550,3 +457,5 @@ sensible defaults. For more advanced users, the sky is the limit.
 .. _`Templating`: https://github.com/symfony/Templating
 .. _`Security`: https://github.com/symfony/Security
 .. _`Translation`: https://github.com/symfony/Translation
+
+.. include:: ../_terminology.rst
