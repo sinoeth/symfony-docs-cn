@@ -1,50 +1,38 @@
 .. index::
    single: Installation
 
-Installing and Configuring Symfony
-==================================
+安装和配置 Symfony
+=============
 
-The goal of this chapter is to get you up and running with a working application
-built on top of Symfony. Fortunately, Symfony offers "distributions", which
-are functional Symfony "starter" projects that you can download and begin
-developing in immediately.
+本章的目标是帮助您在 Symfony 之上构建一个完好运行的 |application|
+幸亏 Symfony 提供 “ |distribution| ”,它是一个您可以下载并立刻开始开发工作的 Symfony “初始” |project| 。
 
 .. tip::
 
-    If you're looking for instructions on how best to create a new project
-    and store it via source control, see `Using Source Control`_.
+    如果您再找如何最好地创建新项目并通过 |source control| 存储的指南，请查阅 `Using Source Control`_ 。
 
-Downloading a Symfony2 Distribution
------------------------------------
+下载 Symfony2 |distribution|
+--------------------------
 
 .. tip::
 
-    First, check that you have installed and configured a Web server (such
-    as Apache) with PHP 5.3.2 or higher. For more information on Symfony2
-    requirements, see the :doc:`requirements reference</reference/requirements>`.
-    For information on configuring your specific web server document root, see the
-    following documentation: `Apache`_ | `Nginx`_ .
+    首先，检查你已经安装和配置了 |web server| （例如： Apache）和 PHP 5.3.2 或更高版本。
+    更多关于 Symfony2 安装需求的信息，请参见 :doc:`requirements reference</reference/requirements>` 。
+    更多关于配置您的 |web server| 文档根目录的信息，请参见文档： `Apache`_ | `Nginx`_ 。
 
-Symfony2 packages "distributions", which are fully-functional applications
-that include the Symfony2 core libraries, a selection of useful bundles, a
-sensible directory structure and some default configuration. When you download
-a Symfony2 distribution, you're downloading a functional application skeleton
-that can be used immediately to begin developing your application.
+Symfony2 “ |distribution| ”包是一个包含 Symfony2 核心库、 |bundle| 选集、一个合理目录结构和一些默认配置，功能齐全的 |application| ，
+当你现在了一个 Symfony2 |distribution| ，您下载了一个可以立即用于开发您的 |application| 的 功能型 |application| 骨架。
 
-Start by visiting the Symfony2 download page at `http://symfony.com/download`_.
-On this page, you'll see the *Symfony Standard Edition*, which is the main
-Symfony2 distribution. Here, you'll need to make two choices:
+首先访问 Symfony2 下载页面  `http://symfony.com/download`_ 。
+在这个页面上，您将看到 Symfony2 的主力 |distribution| —— |*Symfony Standard Edition*| 。
+这里，您需要做出选择：
 
-* Download either a ``.tgz`` or ``.zip`` archive - both are equivalent, download
-  whatever you're more comfortable using;
+* 下载 ``.tgz`` 或者 ``.zip`` 压缩文档 —— 两者完全一样， 下载您觉得习惯用的一个；
 
-* Download the distribution with or without vendors. If you have `Git`_ installed
-  on your computer, you should download Symfony2 "without vendors", as it
-  adds a bit more flexibility when including third-party/vendor libraries.
+* 下载包含或者不带 |vendors| 的 |distribution| 。 如果您安装了  `Git`_ ，
+  您应该下载“ |without vendors| ”的 Symfony2，因为这样可以更加灵活地加载第三方（vendor）库。
 
-Download one of the archives somewhere under your local web server's root
-directory and unpack it. From a UNIX command line, this can be done with
-one of the following commands (replacing ``###`` with your actual filename):
+将一个压缩包下载到您的本地 |web server| 根目录并对其解压。 在 UNIX 命令行中，可以使用如下一个命令实现（以您的实际文件名替代 ``###`` ）：
 
 .. code-block:: bash
 
@@ -54,8 +42,7 @@ one of the following commands (replacing ``###`` with your actual filename):
     # for a .zip file
     unzip Symfony_Standard_Vendors_2.0.###.zip
 
-When you're finished, you should have a ``Symfony/`` directory that looks
-something like this:
+完成上面的工作后，您应该有一个 ``Symfony/`` 目录，其目录结构是这样的：
 
 .. code-block:: text
 
@@ -75,68 +62,58 @@ something like this:
 
 .. _installation-updating-vendors:
 
-Updating Vendors
-~~~~~~~~~~~~~~~~
+更新 |Vendors|
+~~~~~~~~~~~~
 
-Step 1: Get `Composer`_ (The great new PHP packaging system)
+第 1 步：获取 `Composer`_ （一个优秀的 PHP 打包系统）
 
 .. code-block:: bash
 
     curl -s http://getcomposer.org/installer | php
 
-Make sure you download ``composer.phar`` in the same folder where
-the ``composer.json`` file is located (this is your Symfony project
-root by default).
+确保将 ``composer.phar`` 下载都 ``composer.json`` 所在文件夹（即 Symfony |project| 的默认根目录）。
 
-Step 2: Install vendors
+第 2 步：安装 |vendors|
 
 .. code-block:: bash
 
     php composer.phar install
 
-This command downloads all of the necessary vendor libraries - including
-Symfony itself - into the ``vendor/`` directory.
+该命令下载所有必要的 |vendor| 库 —— 包括 Symfony 自身 —— 到 ``vendor/`` 目录。
 
 .. note::
 
-	If you don't have ``curl`` installed, you can also just download the ``installer``
-	file manually at http://getcomposer.org/installer. Place this file into your
-	project and then run:
+	如果您没有安装 ``curl`` ，可以从  http://getcomposer.org/installer 下载 ``installer`` ，
+   将其存放于 |project| 目录并运行：
 
 	.. code-block:: bash
 
 		php installer
 		php composer.phar install
 
-Configuration and Setup
-~~~~~~~~~~~~~~~~~~~~~~~
+配置与设置
+~~~~~
 
-At this point, all of the needed third-party libraries now live in the ``vendor/``
-directory. You also have a default application setup in ``app/`` and some
-sample code inside the ``src/`` directory.
+到此为止，所有的第三方库都存放在 ``vendor/`` 目录。
+您还有一个默认的 |application| 设置 ``app/`` 以及 ``src/`` 目录下的一些范例代码。
 
-Symfony2 comes with a visual server configuration tester to help make sure
-your Web server and PHP are configured to use Symfony. Use the following URL
-to check your configuration:
+Symfony2 带有一个可视的服务器配置测试，用来帮助确保 |web server| 和 PHP 按照 Symfony 要求被设置。
+访问下面的 URL 测试您的配置：
 
 .. code-block:: text
 
     http://localhost/Symfony/web/config.php
 
-If there are any issues, correct them now before moving on.
+如果出现问题，逐一更正它们后继续。
 
-.. sidebar:: Setting up Permissions
+.. sidebar:: 设置 |permission|
 
-    One common issue is that the ``app/cache`` and ``app/logs`` directories
-    must be writable both by the web server and the command line user. On
-    a UNIX system, if your web server user is different from your command
-    line user, you can run the following commands just once in your project
-    to ensure that permissions will be setup properly. Change ``www-data``
-    to your web server user:
+    一个常见问题是 ``app/cache`` 和 ``app/logs`` 目录对于 |web server| 和 命令行用户必须是可写的。
+    在 UNIX 系统中，如果您有不同的 |web server| 用户和命令行用户，可以在 |project| 中运行下面的命令一次确保 |permission| 被正确设置。 更改 |web server| 用户的  ``www-data`` ：
 
-    **1. Using ACL on a system that supports chmod +a**
+    **1. 在允许 chmod +a 的系统上使用 ACL**
 
-    Many systems allow you to use the ``chmod +a`` command. Try this first,
+    很多系统允许使用 ``chmod +a`` 命令。先这样试一下，如果得到错误信息尝试下一种方法：
     and if you get an error - try the next method:
 
     .. code-block:: bash
@@ -147,26 +124,19 @@ If there are any issues, correct them now before moving on.
         sudo chmod +a "www-data allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
         sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
 
-    **2. Using Acl on a system that does not support chmod +a**
+    **2. 在不允许 chmod +a 的系统上使用 ACL**
 
-    Some systems don't support ``chmod +a``, but do support another utility 
-    called ``setfacl``. You may need to `enable ACL support`_ on your partition
-    and install setfacl before using it (as is the case with Ubuntu), like 
-    so:
+    有些系统不支持 ``chmod +a`` ，但是支持另一个名为  ``setfacl`` 的工具。您可需要在使用前，在分区上  `启用 ACL 支持`_ 并安装 （Ubuntu就是这样），如下所示：
 
     .. code-block:: bash
 
         sudo setfacl -R -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
         sudo setfacl -dR -m u:www-data:rwx -m u:`whoami`:rwx app/cache app/logs
 
-    **3. Without using ACL**
+    **3. 不使用 ACL**
 
-    If you don't have access to changing the ACL of the directories, you will
-    need to change the umask so that the cache and log directories will
-    be group-writable or world-writable (depending if the web server user
-    and the command line user are in the same group or not). To achieve
-    this, put the following line at the beginning of the ``app/console``,
-    ``web/app.php`` and ``web/app_dev.php`` files:
+    如果不能访问目录的 ACL ，可以更改 umask 使得 cache 和 log 两个目录称为组可写或者全局可写（取决于 |web server| 用户和命令行用户是否在一个组）
+    通过将下列放在 ``app/console``、    ``web/app.php`` 和 ``web/app_dev.php`` 文件的开始做到：
 
     .. code-block:: php
 
@@ -176,62 +146,51 @@ If there are any issues, correct them now before moving on.
 
         umask(0000); // This will let the permissions be 0777
 
-    Note that using the ACL is recommended when you have access to them
-    on your server because changing the umask is not thread-safe.
+    建议在可以访问目录的 ACL 的情形下使用 ACL，因为更改 umask 会带来安全隐患。
 
-When everything is fine, click on "Go to the Welcome page" to request your
-first "real" Symfony2 webpage:
+一切就绪之后，点击 "Go to the Welcome page" 第一次 |request| “真正的” Symfony2 网页：
 
 .. code-block:: text
 
     http://localhost/Symfony/web/app_dev.php/
 
-Symfony2 should welcome and congratulate you for your hard work so far!
+Symfony2 会欢迎并且为您之前的努力成果表示恭喜！
 
 .. image:: /images/quick_tour/welcome.jpg
 
-Beginning Development
----------------------
+开始开发
+----
 
-Now that you have a fully-functional Symfony2 application, you can begin
-development! Your distribution may contain some sample code - check the
-``README.rst`` file included with the distribution (open it as a text file)
-to learn about what sample code was included with your distribution and how
-you can remove it later.
+现在您有了一个全功能的 Symfony2 |application|, 可以开始开发了！
+|distribution| 中应该包含一些范例代码 —— 查看 |distribution| 中的
+``README.rst`` 文件（以文本文件方式打开），查看 |distribution| 中包含哪些范例代码以及如何移除它们。
 
-If you're new to Symfony, join us in the ":doc:`page_creation`", where you'll
-learn how to create pages, change configuration, and do everything else you'll
-need in your new application.
+如果您是 Symfony 新用户，随我们一起进入 ":doc:`page_creation`" ，
+学习如何创建页面、更改配置以及其他新 |application| 需要做的工作。
 
-Using Source Control
---------------------
+使用 |source control|
+-------------------
 
-If you're using a version control system like ``Git`` or ``Subversion``, you
-can setup your version control system and begin committing your project to
-it as normal. The Symfony Standard edition *is* the starting point for your
-new project.
+如果您在使用类似于 ``Git`` 和 ``Subversion`` 的 |version control| 系统，在设置 |version control| ，在设置 |version control| 系统后就可以开始正常提交 |project|
+|Symfony Standard Edition| *是* 新 |project| 的起点。
 
-For specific instructions on how best to setup your project to be stored
-in git, see :doc:`/cookbook/workflow/new_project_git`.
+关于如何最好地使用 git 存储项目的指南，请参见 :doc:`/cookbook/workflow/new_project_git`.
 
-Ignoring the ``vendor/`` Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+忽略 ``vendor/`` 目录
+~~~~~~~~~~~~~~~~~
 
-If you've downloaded the archive *without vendors*, you can safely ignore
-the entire ``vendor/`` directory and not commit it to source control. With
-``Git``, this is done by creating and adding the following to a ``.gitignore``
-file:
+如果下载的是 |*without vendors*| 的压缩包，整个 ``vendor/`` 目录可以安全地被忽略并提交至 |source control| 。
+ 就 ``Git`` 而言，通过创建 ``.gitignore`` 文件并添加如下内容来实现：
 
 .. code-block:: text
 
     vendor/
 
-Now, the vendor directory won't be committed to source control. This is fine
-(actually, it's great!) because when someone else clones or checks out the
-project, he/she can simply run the ``php composer.phar install`` script to
-download all the necessary vendor libraries.
+现在， vendor 目录不会被提交至 |source control| 。 
+因为其他人 |clone| 或者 |check out| |project| 之后，
+可以简单地运行 ``php composer.phar install`` 下载所需的 |vendor| 库。
 
-.. _`enable ACL support`: https://help.ubuntu.com/community/FilePermissionsACLs
+.. _`启用 ACL 支持`: https://help.ubuntu.com/community/FilePermissionsACLs
 .. _`http://symfony.com/download`: http://symfony.com/download
 .. _`Git`: http://git-scm.com/
 .. _`GitHub Bootcamp`: http://help.github.com/set-up-git-redirect
@@ -239,3 +198,4 @@ download all the necessary vendor libraries.
 .. _`Apache`: http://httpd.apache.org/docs/current/mod/core.html#documentroot
 .. _`Nginx`: http://wiki.nginx.org/HttpCoreModule#root
 
+.. include:: ../_terminology.rst

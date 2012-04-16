@@ -1,4 +1,17 @@
+.. |Symfony Standard Edition| replace:: Symfony 标准版
+.. |*Symfony Standard Edition*| replace:: *Symfony 标准版*
 .. |framework| replace:: 架构
+.. |distribution| replace:: 分发
+.. |source control| replace:: 源代码控制
+.. |version control| replace:: 版本控制
+.. |permission| replace:: 权限
+.. |web server| replace:: 网页服务器
+.. |without vendors| replace:: 无第三方库
+.. |*without vendors*| replace:: *无第三方库*
+.. |vendors| replace:: 第三方库
+.. |vendor| replace:: 第三方库
+.. |clone| replace:: 克隆
+.. |check out| replace:: 签出
 .. |project| replace:: 项目
 .. |``Kernel``| replace:: 内核
 .. |domain| replace:: 域
