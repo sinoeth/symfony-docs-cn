@@ -1,79 +1,68 @@
 .. index::
    single: Page creation
 
-Creating Pages in Symfony2
-==========================
+在 Symfony2 中创建页面
+================
 
-Creating a new page in Symfony2 is a simple two-step process:
+在 Symfony2 中建立新页面只需要简单地两步：
 
-* *Create a route*: A route defines the URL (e.g. ``/about``) to your page
-  and specifies a controller (which is a PHP function) that Symfony2 should
-  execute when the URL of an incoming request matches the route pattern;
+* |*Create a route*| ： |route| 定义页面对应的 URL （例如：``/about`` ）
+  以及接收到的 |request| 与 |route| 匹配时该执行哪个 |controller| （某个 PHP 函数）；
 
-* *Create a controller*: A controller is a PHP function that takes the incoming
-  request and transforms it into the Symfony2 ``Response`` object that's
-  returned to the user.
+* |*Create a controller*| ： |controller| 就是将收到的 |request| 
+  转化为 Symfony2 ``Response`` |object| 的一个 PHP 函数 A controller is a PHP function that takes the incoming
 
-This simple approach is beautiful because it matches the way that the Web works.
-Every interaction on the Web is initiated by an HTTP request. The job of
-your application is simply to interpret the request and return the appropriate
-HTTP response.
+这样的做法是很完美的，因为它与 |web| 的工作模式相吻合。
+|web| 的每一个交互都是由 |HTTP request| 发起。
+|application| 的工作就是解读 |request| 并返回恰当的 HTTP |response| .
 
-Symfony2 follows this philosophy and provides you with tools and conventions
-to keep your application organized as it grows in users and complexity.
+Symfony2 追随这样的理念，并随着用户的增加以及 |application| 的复杂化，保持 |application| 的条理。
 
-Sounds simple enough? Let's dive in!
+听起来很简单？让我们深入其中吧！
 
 .. index::
    single: Page creation; Example
 
-The "Hello Symfony!" Page
--------------------------
+"Hello Symfony!" [Symfony 你好] 页面
+--------------------------------
 
-Let's start with a spin off of the classic "Hello World!" application. When
-you're finished, the user will be able to get a personal greeting (e.g. "Hello Symfony")
-by going to the following URL:
+让我们从经典的 “Hello World！” |application| 开始吧！
+完成后，用户访问下面的链接，将得到个性化的问候（例如： “Symfony 你好”）：
 
 .. code-block:: text
 
     http://localhost/app_dev.php/hello/Symfony
 
-Actually, you'll be able to replace ``Symfony`` with any other name to be
-greeted. To create the page, follow the simple two-step process.
+事实上，可以用任何其他名字替代 ``Symfony`` 获得相应的问候。
+建立这个页面需要依照两个步骤。
 
 .. note::
 
-    The tutorial assumes that you've already downloaded Symfony2 and configured
-    your webserver. The above URL assumes that ``localhost`` points to the
-    ``web`` directory of your new Symfony2 project. For detailed information
-    on this process, see the documentation on the web server you are using.
-    Here's the relevant documentation page for some web server you might be using:
+    这个教程假设您已经下载了 Symfony2并配置了 |web server| 。
+    上面的链接假设 ``localhost`` 指向 Symfony2 |project| ``web`` 目录。
+    具体信息请参阅 |web server| 文档。这是一些可能用到的 |web server| 的相关文档：
     
     * For Apache HTTP Server, refer to `Apache's DirectoryIndex documentation`_.
     * For Nginx, refer to `Nginx HttpCoreModule location documentation`_.
 
-Before you begin: Create the Bundle
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+开始之前： 建立 |bundle|
+~~~~~~~~~~~~~~~~~
 
-Before you begin, you'll need to create a *bundle*. In Symfony2, a :term:`bundle`
-is like a plugin, except that all of the code in your application will live
-inside a bundle.
+开始之前，需要先建立 |*bundle*| 。
+ 在 Symfony2 中， a :term:`bundle` 就像是一个插件，只是其中装载的是 |application| 的全部代码。
 
-A bundle is nothing more than a directory that houses everything related
-to a specific feature, including PHP classes, configuration, and even stylesheets
-and Javascript files (see :ref:`page-creation-bundles`).
+|bundle| 仅仅是一个存储与特定功能相关的一切（包括 PHP |class| ，配置，样式以及 Javascript 文件 ）的目录
+（请参阅 :ref:`page-creation-bundles`）。
 
-To create a bundle called ``AcmeHelloBundle`` (a play bundle that you'll
-build in this chapter), run the following command and follow the on-screen
-instructions (use all of the default options):
+运行下面的命令并根据屏幕上的指导（使用所有默认选项）建立一个名为 ``AcmeHelloBundle`` 的 |bundle| 
+（这一章中建立的一个联系 |bundle| ）：
 
 .. code-block:: bash
 
     php app/console generate:bundle --namespace=Acme/HelloBundle --format=yml
 
-Behind the scenes, a directory is created for the bundle at ``src/Acme/HelloBundle``.
-A line is also automatically added to the ``app/AppKernel.php`` file so that
-the bundle is registered with the kernel::
+在后台， ``src/Acme/HelloBundle`` 目录将为该 |bundle| 建立。
+在 ``app/AppKernel.php`` 之中被添加了新的一行，将 |bundle| 注册到了 |kernel| 之中：
 
     // app/AppKernel.php
     public function registerBundles()
@@ -87,18 +76,15 @@ the bundle is registered with the kernel::
         return $bundles;
     }
 
-Now that you have a bundle setup, you can begin building your application
-inside the bundle.
+现在 |bundle| 已经被建立，可以在 |bundle| 内部开始构建 |application| 了。
 
-Step 1: Create the Route
-~~~~~~~~~~~~~~~~~~~~~~~~
+第 1 步：建立 |route|
+~~~~~~~~~~~~~~~~
 
-By default, the routing configuration file in a Symfony2 application is
-located at ``app/config/routing.yml``. Like all configuration in Symfony2,
-you can also choose to use XML or PHP out of the box to configure routes.
+默认的 Symfony2 |application| |route| 配置位于 ``app/config/routing.yml`` 。
+正如 Symfony2 所有配置一样，可以选择使用 XML、PHP 不受限制地配置 |route| 。
 
-If you look at the main routing file, you'll see that Symfony already added
-an entry when you generated the ``AcmeHelloBundle``:
+如果查看主 |route| 文件，会发现 Symfony 已经在建立 ``AcmeHelloBundle`` |bundle| 时添加了一条记录：
 
 .. configuration-block::
 
@@ -135,13 +121,10 @@ an entry when you generated the ``AcmeHelloBundle``:
 
         return $collection;
 
-This entry is pretty basic: it tells Symfony to load routing configuration
-from the ``Resources/config/routing.yml`` file that lives inside the ``AcmeHelloBundle``.
-This means that you place routing configuration directly in ``app/config/routing.yml``
-or organize your routes throughout your application, and import them from here.
+这条记录很简单：告诉 Symfony 从``AcmeHelloBundle`` 之中的 ``Resources/config/routing.yml`` 文件调用 |route| 配置。
+这意味着， |route| 配置在 ``app/config/routing.yml`` 文件之中，从这里引用整个 |application| 的 |route| 集中管理。
 
-Now that the ``routing.yml`` file from the bundle is being imported, add
-the new route that defines the URL of the page that you're about to create:
+现在 |bundle| 的 ``routing.yml`` 文件已被导入，可以在这里定义将要建立的每个页面的 |route| ：
 
 .. configuration-block::
 
@@ -179,32 +162,25 @@ the new route that defines the URL of the page that you're about to create:
 
         return $collection;
 
-The routing consists of two basic pieces: the ``pattern``, which is the URL
-that this route will match, and a ``defaults`` array, which specifies the
-controller that should be executed. The placeholder syntax in the pattern
-(``{name}``) is a wildcard. It means that ``/hello/Ryan``, ``/hello/Fabien``
-or any other similar URL will match this route. The ``{name}`` placeholder
-parameter will also be passed to the controller so that you can use its value
-to personally greet the user.
+|route| 包含连个基本组成部分： |route| 用以匹配的 |``pattern``| 和一个制定应该执行的 |controller| 的 |``defaults``| 数组。
+|pattern| （``{name}``） 的内容是一个通配符，意味着 ``/hello/Ryan`` 、 ``/hello/Fabien`` 之类的 URL 将会与该 |route| 匹配。
+``{name}`` 参数也将被一同传递，以便用该值给与用于个性化问候。
 
 .. note::
 
-  The routing system has many more great features for creating flexible
-  and powerful URL structures in your application. For more details, see
-  the chapter all about :doc:`Routing </book/routing>`.
+  |route| 系统还有很多为 |application| 提供灵活强大的 URL结构的优秀功能。
+  更进一步的信息，请参阅相关章节 :doc:`Routing </book/routing>` 。
 
-Step 2: Create the Controller
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+第 2 步：创建 |controller|
+~~~~~~~~~~~~~~~~~~~~~
 
-When a URL such as ``/hello/Ryan`` is handled by the application, the ``hello``
-route is matched and the ``AcmeHelloBundle:Hello:index`` controller is executed
-by the framework. The second step of the page-creation process is to create
-that controller.
+当 |application| 处理一个类似于 ``/hello/Ryan``  的 URL， |route| ``hello`` 被匹配， 
+|framework| 将会执行 ``AcmeHelloBundle:Hello:index`` |controller| 。
+创建页面的第二步就是创建这个 |controller| 。
 
-The controller - ``AcmeHelloBundle:Hello:index`` is the *logical* name of
-the controller, and it maps to the ``indexAction`` method of a PHP class
-called ``Acme\HelloBundle\Controller\Hello``. Start by creating this file
-inside your ``AcmeHelloBundle``::
+|controller| 的 *逻辑* 名是 ``AcmeHelloBundle:Hello:index``，
+它将映射到名为 ``Acme\HelloBundle\Controller\Hello`` 的 PHP |class| 之中的 ``indexAction`` |method| 。
+在 ``AcmeHelloBundle``中创建这个文件 ::
 
     // src/Acme/HelloBundle/Controller/HelloController.php
     namespace Acme\HelloBundle\Controller;
@@ -215,14 +191,10 @@ inside your ``AcmeHelloBundle``::
     {
     }
 
-In reality, the controller is nothing more than a PHP method that you create
-and Symfony executes. This is where your code uses information from the request
-to build and prepare the resource being requested. Except in some advanced
-cases, the end product of a controller is always the same: a Symfony2 ``Response``
-object.
+事实上， |controller| 就是一个由 Symfony 执行的 PHP |method| 。 这是代码利用 |request| 信息构建并准备所 |request| 的资源的地方。
+除了一些高端应用的情形， |controller| 的最终产品都是一样的： 一个 Symfony2  ``Response`` |object| 。
 
-Create the ``indexAction`` method that Symfony will execute when the ``hello``
-route is matched::
+创建在 ``hello`` |route| 被匹配后 Symfony 将运行的 ``indexAction`` |method| ::
 
     // src/Acme/HelloBundle/Controller/HelloController.php
 
@@ -235,13 +207,9 @@ route is matched::
         }
     }
 
-The controller is simple: it creates a new ``Response`` object, whose first
-argument is the content that should be used in the response (a small HTML
-page in this example).
+|controller| 很简单：创建一个新 ``Response`` |object| ，第一个变量是用于构建 |response| 的内容（这个例子中是一个简单的 HTML 页面）。
 
-Congratulations! After creating only a route and a controller, you already
-have a fully-functional page! If you've setup everything correctly, your
-application should greet you:
+恭喜！在仅仅建立了一条 |route| 和一个 |controller| 之后，已经有了一个全功能的页面！如果一切设置正确， |application| 应该问候如下：
 
 .. code-block:: text
 
@@ -263,20 +231,18 @@ application should greet you:
 
         php app/console cache:clear --env=prod --no-debug
 
-An optional, but common, third step in the process is to create a template.
+一个通常的，但是可选的第三步就是创建一个 |template| 。
 
 .. note::
 
-   Controllers are the main entry point for your code and a key ingredient
-   when creating pages. Much more information can be found in the
+   |controller| 是代码的主进入点，也是构建页面时的重要组成部分。更多信息请参阅：
    :doc:`Controller Chapter </book/controller>`.
 
-Optional Step 3: Create the Template
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+可选的第 3 步： 创建 |template|
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Templates allows you to move all of the presentation (e.g. HTML code) into
-a separate file and reuse different portions of the page layout. Instead
-of writing the HTML inside the controller, render a template instead:
+通过 |template| 可以将所有呈现（例如： HTML 代码）存放于独立的文件并重用页面 |layout| 的不同部分。
+以 |render| |template| 的方式，避免了在 |controller| 中书写 HTML：
 
 .. code-block:: php
     :linenos:
@@ -299,34 +265,28 @@ of writing the HTML inside the controller, render a template instead:
 
 .. note::
 
-   In order to use the ``render()`` method, your controller must extend the
-   ``Symfony\Bundle\FrameworkBundle\Controller\Controller`` class (API
-   docs: :class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller`),
-   which adds shortcuts for tasks that are common inside controllers. This
-   is done in the above example by adding the ``use`` statement on line 4
-   and then extending ``Controller`` on line 6.
+   为了使用  ``render()`` |method| ，  |controller| 必须继承
+   ``Symfony\Bundle\FrameworkBundle\Controller\Controller`` |class| （API
+   文档： :class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller` ），
+   |controller| 经常做的任务，这里都有快捷方式。
+   通过上面例子中第4行的 ``use`` 语句引用后，在第6行完成 ``Controller`` 的继承。
 
-The ``render()`` method creates a ``Response`` object filled with the content
-of the given, rendered template. Like any other controller, you will ultimately
-return that ``Response`` object.
+``render()`` |method| 使用给出的内容， |render| |template| 创建一个 ``Response`` |object|
+与其它 |controller| 相同，将返回一个 ``Response`` 对象。
 
-Notice that there are two different examples for rendering the template.
-By default, Symfony2 supports two different templating languages: classic
-PHP templates and the succinct but powerful `Twig`_ templates. Don't be
-alarmed - you're free to choose either or even both in the same project.
+应该注意到，有两种 |render| |template| 的方法。
+默认情况， Symfony2 支持两种 |template| 语言： 经典的 PHP |template| 和 简明且强大的 `Twig`_ |template| 。
+不要担心，可以自由的在同一个项目中使用任何一种，甚至于混用两种。
 
-The controller renders the ``AcmeHelloBundle:Hello:index.html.twig`` template,
-which uses the following naming convention:
+|controller| 为下面的命名规则 |render| ``AcmeHelloBundle:Hello:index.html.twig`` |template| ：
 
     **BundleName**:**ControllerName**:**TemplateName**
 
-This is the *logical* name of the template, which is mapped to a physical
-location using the following convention.
+这是 |template| 的 *logical* 名，根据命名规则对应着下面的物理地址。
 
     **/path/to/BundleName**/Resources/views/**ControllerName**/**TemplateName**
 
-In this case, ``AcmeHelloBundle`` is the bundle name, ``Hello`` is the
-controller, and ``index.html.twig`` the template:
+在这个例子中， ``AcmeHelloBundle`` 是 |bundle| 名，  ``Hello`` 是 |controller| ， |template| 是 ``index.html.twig`` 。
 
 .. configuration-block::
 
@@ -347,20 +307,15 @@ controller, and ``index.html.twig`` the template:
 
         Hello <?php echo $view->escape($name) ?>!
 
-Let's step through the Twig template line-by-line:
+让我们一行行理解 Twig |template| ：
 
-* *line 2*: The ``extends`` token defines a parent template. The template
-  explicitly defines a layout file inside of which it will be placed.
+* *第 2 行*： ``extends`` |token| 定义一个父 |template| ， 是一个明确定义 |layout| 的文件。
 
-* *line 4*: The ``block`` token says that everything inside should be placed
-  inside a block called ``body``. As you'll see, it's the responsibility
-  of the parent template (``base.html.twig``) to ultimately render the
-  block called ``body``.
+* *第 4 行*：  ``block`` |token| 的意思是，其中的一切都应该被放置于名为 ``body`` 的 |block| 中。
+  正如看到的，父  |template| （ ``base.html.twig`` ） 将负责最终 |render| 这个名为 ``body`` 的 |block| 。
 
-The parent template, ``::base.html.twig``, is missing both the **BundleName**
-and **ControllerName** portions of its name (hence the double colon (``::``)
-at the beginning). This means that the template lives outside of the bundles
-and in the ``app`` directory:
+父 |template| ``::base.html.twig`` 的名字中既没有 **BundleName** ，也没有 **ControllerName**
+（因此使用 ``::`` 开头）。这意味着它是一个不位于任何 |bundle| 之中的 |template| ，它位于 ``app`` 目录：
 
 .. configuration-block::
 
@@ -398,49 +353,42 @@ and in the ``app`` directory:
             </body>
         </html>
 
-The base template file defines the HTML layout and renders the ``body`` block
-that you defined in the ``index.html.twig`` template. It also renders a ``title``
-block, which you could choose to define in the ``index.html.twig`` template.
-Since you did not define the ``title`` block in the child template, it defaults
-to "Welcome!".
+基础[base] |template| 文件定义了 HTML |layout| 并 |render| ``index.html.twig`` |template| 中定义的 ``body`` |block| 。
+它也同时 |render| 名为 ``title`` 的 |block| ，也可以在 ``index.html.twig`` 中定义该 |block| 。
+这里没有在子 |template| 中定义  ``title`` |block| ，所以为默认的 "Welcome!"。
 
-Templates are a powerful way to render and organize the content for your
-page. A template can render anything, from HTML markup, to CSS code, or anything
-else that the controller may need to return.
+|template| 是 |render| 和组织页面内容的一种强大方式。 
+|template| 可以 |render| 包括 HTML标注， CSS代码以及任何其他 Controller 需要返回的内容。
 
-In the lifecycle of handling a request, the templating engine is simply
-an optional tool. Recall that the goal of each controller is to return a
-``Response`` object. Templates are a powerful, but optional, tool for creating
-the content for that ``Response`` object.
+在处理 |request| 的生命周期内， |template| 引擎只是一个可选的工具。 
+前文曾提到 |controller| 的目标是返回 ``Response`` |object| ,
+|template| 则是为 ``Response`` |object| 创建内容的一个可选的强大工具。
 
 .. index::
    single: Directory Structure
 
-The Directory Structure
------------------------
+目录结构
+----
 
-After just a few short sections, you already understand the philosophy behind
-creating and rendering pages in Symfony2. You've also already begun to see
-how Symfony2 projects are structured and organized. By the end of this section,
-you'll know where to find and put different types of files and why.
+仅仅几节内容，已经介绍了在 Symfony2 中创建和 |render| 页面的思想。
+也初步了解了 Symfony2 |project| 的结构的组织方式。
+这一节将介绍不同类型的文件应从什么地方存放和查找，以及这样安置的原因。
 
-Though entirely flexible, by default, each Symfony :term:`application` has
-the same basic and recommended directory structure:
+在非常灵活的前提下，每个 Symfony :term:`application` 有着相同的基本目录结构，这也是推荐的目录结构：
 
-* ``app/``: This directory contains the application configuration;
+* ``app/`` ： 该目录存放 |application| 配置；
 
-* ``src/``: All the project PHP code is stored under this directory;
+* ``src/`` ：所有 |project| 的 PHP 代码都存在这个目录之下；
 
-* ``vendor/``: Any vendor libraries are placed here by convention;
+* ``vendor/`` ： 根据惯例，所有 |vendor| 库都存放在这里；
 
-* ``web/``: This is the web root directory and contains any publicly accessible files;
+* ``web/`` ： 这是 |web| 的根目录，存放所有允许公开访问的文件；
 
-The Web Directory
-~~~~~~~~~~~~~~~~~
+web 目录
+~~~~~~
 
-The web root directory is the home of all public and static files including
-images, stylesheets, and JavaScript files. It is also where each
-:term:`front controller` lives::
+web 目录是包括图片，样式文件[stylesheet]以及 JavaScript 文件的公开静态文件的存放位置。
+也是每个 :term:`front controller` 的所在::
 
     // web/app.php
     require_once __DIR__.'/../app/bootstrap.php.cache';
@@ -452,75 +400,57 @@ images, stylesheets, and JavaScript files. It is also where each
     $kernel->loadClassCache();
     $kernel->handle(Request::createFromGlobals())->send();
 
-The front controller file (``app.php`` in this example) is the actual PHP
-file that's executed when using a Symfony2 application and its job is to
-use a Kernel class, ``AppKernel``, to bootstrap the application.
+|front controller| 文件 （ 这个例子中的 ``app.php`` ） 是在使用 Symfony2 |application| 时，被执行的真实 PHP 文件。 
+其工作就是调用 |kernel| |class| —— ``AppKernel`` ， 以 |bootstrap| |application| 。
 
 .. tip::
 
-    Having a front controller means different and more flexible URLs than
-    are used in a typical flat PHP application. When using a front controller,
-    URLs are formatted in the following way:
+    使用 |front controller| 意味着使用与经典直接书写的 PHP |application| 完全不同，且更加灵活的 URL。 
+    在使用 |front controller| 时， URL 格式化为如下的形式：
 
     .. code-block:: text
 
         http://localhost/app.php/hello/Ryan
 
-    The front controller, ``app.php``, is executed and the "internal:" URL
-    ``/hello/Ryan`` is routed internally using the routing configuration.
-    By using Apache ``mod_rewrite`` rules, you can force the ``app.php`` file
-    to be executed without needing to specify it in the URL:
+    |front controller| 被执行,通过 |route| 配置 |route| “内部的” URL ``/hello/Ryan`` 。
+    通过使用 Apache ``mod_rewrite`` 规则，可以不再 URL 中特别指出的时候，强制执行 ``app.php`` 文件：
 
     .. code-block:: text
 
         http://localhost/hello/Ryan
 
-Though front controllers are essential in handling every request, you'll
-rarely need to modify or even think about them. We'll mention them again
-briefly in the `Environments`_ section.
+尽管 |front controller| 是处理每个 |request| 的必由之路，但却几乎不需要更改，甚至于不需要被考虑。
+在 `Environments`_ 章节中，会被再次简要地提及。 
 
-The Application (``app``) Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|application| （ ``app`` ）目录
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As you saw in the front controller, the ``AppKernel`` class is the main entry
-point of the application and is responsible for all configuration. As such,
-it is stored in the ``app/`` directory.
+正如在 |front controller| 之中所见， ``AppKernel`` |class| 是 |application| 的主要介入点，负责所有配置。
+因此，它位于 ``app/`` 目录。
 
-This class must implement two methods that define everything that Symfony
-needs to know about your application. You don't even need to worry about
-these methods when starting - Symfony fills them in for you with sensible
-defaults.
+这个 |class| 必须通过两个 |method| 定义 Symfony 需要了解该 |application| 的所有一切。
+不用担心它们 —— Symfony 已经它们的所有默认内容编写好。
 
-* ``registerBundles()``: Returns an array of all bundles needed to run the
-  application (see :ref:`page-creation-bundles`);
+* ``registerBundles()`` ： 返回运行这个 |application| 所需的所有 |bundle| （参见 :ref:`page-creation-bundles` ）；
 
-* ``registerContainerConfiguration()``: Loads the main application configuration
-  resource file (see the `Application Configuration`_ section).
+* ``registerContainerConfiguration()`` ： 调用主 |application| 配置的资源文件（参见：`Application Configuration`_ 一节）。
 
-In day-to-day development, you'll mostly use the ``app/`` directory to modify
-configuration and routing files in the ``app/config/`` directory (see
-`Application Configuration`_). It also contains the application cache
-directory (``app/cache``), a log directory (``app/logs``) and a directory
-for application-level resource files, such as templates (``app/Resources``).
-You'll learn more about each of these directories in later chapters.
+在日常开发中，主要使用 ``app/`` 目录更改配置， |routing| 文件在 ``app/config/`` 目录下（参见：`Application Configuration`_）。
+其中还有一个 |cache| 目录 （ ``app/cache`` ）和一个   |log| 目录 （``app/logs``），
+以及一个 |application| 级别资源文件夹，例如：存放 |template| 的（``app/Resources``）。
+这些内容都会后面章节中讲解。
 
 .. _autoloading-introduction-sidebar:
 
-.. sidebar:: Autoloading
+.. sidebar:: |autoload|
 
-    When Symfony is loading, a special file - ``app/autoload.php`` - is included.
-    This file is responsible for configuring the autoloader, which will autoload
-    your application files from the ``src/`` directory and third-party libraries
-    from the ``vendor/`` directory.
+    在装载 Symfony 之时，特定文件 ``app/autoload.php`` 被引用。
+    该文件负责配置自动装载 ``src/`` 目录以及 ``vendor/`` 目录的第三方库的  autoloader [|autoloader|]。
 
-    Because of the autoloader, you never need to worry about using ``include``
-    or ``require`` statements. Instead, Symfony2 uses the namespace of a class
-    to determine its location and automatically includes the file on your
-    behalf the instant you need a class.
+    有了 autoloader ，在不需要使用 ``include`` 和 ``require`` 语句。 
+    Symfony2 使用 |class| 的 |namespace| 确定其位置并自动引用相应文件，实例化所需的 |class| 。
 
-    The autoloader is already configured to look in the ``src/`` directory
-    for any of your PHP classes. For autoloading to work, the class name and
-    path to the file have to follow the same pattern:
+    autoloader 已被配置为查看 ``src/`` 目录寻找 PHP |class| 。为确保 |autoload| 工作，需要按照下面的格式提供 |class| 名和文件路径：
 
     .. code-block:: text
 
@@ -529,49 +459,37 @@ You'll learn more about each of these directories in later chapters.
         Path:
             src/Acme/HelloBundle/Controller/HelloController.php
 
-    Typically, the only time you'll need to worry about the ``app/autoload.php``
-    file is when you're including a new third-party library in the ``vendor/``
-    directory. For more information on autoloading, see
-    :doc:`How to autoload Classes</components/class_loader>`.
+    通常来讲，只有在引用 ``vendor/`` 之中新的第三方库时，才需要顾及 ``app/autoload.php``文件。
+    更多关于 |autoload| 的信息，请参阅   :doc:`How to autoload Classes</components/class_loader>` 。
 
-The Source (``src``) Directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|source| （ ``src`` ）目录
+~~~~~~~~~~~~~~~~~~~~~~
 
-Put simply, the ``src/`` directory contains all of the actual code (PHP code,
-templates, configuration files, stylesheets, etc) that drives *your* application.
-When developing, the vast majority of your work will be done inside one or
-more bundles that you create in this directory.
+简单来讲， ``src/`` 目录存放所有实际驱动 |application| 的代码（ PHP 代码、模板、配置以及样式文件，等等）
+在开发过程中，主要工作都是在这个目录下所创建的一个或者多个 |bundle| 之中进行的。
 
-But what exactly is a :term:`bundle`?
+那么 :term:`bundle` 是什么呢？
 
 .. _page-creation-bundles:
 
-The Bundle System
------------------
+|bundle| 系统
+-----------
 
-A bundle is similar to a plugin in other software, but even better. The key
-difference is that *everything* is a bundle in Symfony2, including both the
-core framework functionality and the code written for your application.
-Bundles are first-class citizens in Symfony2. This gives you the flexibility
-to use pre-built features packaged in `third-party bundles`_ or to distribute
-your own bundles. It makes it easy to pick and choose which features to enable
-in your application and to optimize them the way you want.
+|bundle| 类似于其他软件中的 |plugin| ，但却更好一些。
+ 核心的区别是，包括 |framework| 核心功能和为 |application| 编写的代码，Symfony 中的 *一切* 都是 |bundle| 。
+|bundle| 是 Symfony2 的头等公民。 这为使用预构的 `third-party bundles`_ 或者分发您自己开发的 |bundle| 提供了灵活性。
+可以轻松地为 |application| 选取功能并加以优化满足需求。
 
 .. note::
 
-   While you'll learn the basics here, an entire cookbook entry is devoted
-   to the organization and best practices of :doc:`bundles</cookbook/bundles/best_practices>`.
+   这里仅作基础性的介绍，cookbook 则完全为管理和最好地使用 :doc:`bundles</cookbook/bundles/best_practices>` 而编写。
 
-A bundle is simply a structured set of files within a directory that implement
-a single feature. You might create a ``BlogBundle``, a ``ForumBundle`` or
-a bundle for user management (many of these exist already as open source
-bundles). Each directory contains everything related to that feature, including
-PHP files, templates, stylesheets, JavaScripts, tests and anything else.
-Every aspect of a feature exists in a bundle and every feature lives in a
-bundle.
+|bundle| 就是在同一个目录中为实现一个 |feature| 的一组由结构的文件。
+可以创建 ``BlogBundle`` 、 ``ForumBundle`` 或者一个用于用户管理的 |bundle| （它们很多都已经是开放源代码的 |bundle| ）。
+每个目录中的一切，包括  PHP 文件、模板、样式和、JavaScript、测试以及其他内容，都是与其 |feature| 相关的。
+|feature| 的一切都在一个 |bundle| 之中，每个 |feature| 都在 |bundle| 之中。
 
-An application is made up of bundles as defined in the ``registerBundles()``
-method of the ``AppKernel`` class::
+|application| 就是由 ``AppKernel`` |class| 的 ``registerBundles()`` |method| 定义的许多 |bundle| 堆积起来的 ::
 
     // app/AppKernel.php
     public function registerBundles()
@@ -598,31 +516,25 @@ method of the ``AppKernel`` class::
         return $bundles;
     }
 
-With the ``registerBundles()`` method, you have total control over which bundles
-are used by your application (including the core Symfony bundles).
+通过 ``registerBundles()`` |method| ，可以完全掌控 |application| 所使用的所有 |bundle| （包括 Symfony 核心 |bundle| ）。
 
 .. tip::
 
-   A bundle can live *anywhere* as long as it can be autoloaded (via the
-   autoloader configured at ``app/autoload.php``).
+   只要可以被 |autoload| （通过配置于 ``app/autoload.php`` 文件的 autoloader ）， |bundle| 可以被存放在任何位置。
 
-Creating a Bundle
-~~~~~~~~~~~~~~~~~
+创建 |bundle|
+~~~~~~~~~~~
 
-The Symfony Standard Edition comes with a handy task that creates a fully-functional
-bundle for you. Of course, creating a bundle by hand is pretty easy as well.
+|Symfony Standard Edition| 有一个方便的 |task| 用以创建全功能的 |bundle| 。
+当然，纯手工创建 |bundle| 也非常容易。
 
-To show you how simple the bundle system is, create a new bundle called
-``AcmeTestBundle`` and enable it.
+创建一个名为 ``AcmeTestBundle`` 的 |bundle| ，来看一下 |bundle| 系统是怎样的。
 
 .. tip::
 
-    The ``Acme`` portion is just a dummy name that should be replaced by
-    some "vendor" name that represents you or your organization (e.g. ``ABCTestBundle``
-    for some company named ``ABC``).
+    ``Acme`` 部分只是一个假定的名字，应该被 体现开发者或者开发公司的 “ |vendor| ”名所取代（例如： ``ABC`` 公司的 ``ABCTestBundle``）。
 
-Start by creating a ``src/Acme/TestBundle/`` directory and adding a new file
-called ``AcmeTestBundle.php``::
+首先创建 ``src/Acme/TestBundle/`` 目录并添加名为 ``AcmeTestBundle.php`` 的新文件::
 
     // src/Acme/TestBundle/AcmeTestBundle.php
     namespace Acme\TestBundle;
@@ -635,15 +547,12 @@ called ``AcmeTestBundle.php``::
 
 .. tip::
 
-   The name ``AcmeTestBundle`` follows the standard :ref:`Bundle naming conventions<bundles-naming-conventions>`.
-   You could also choose to shorten the name of the bundle to simply ``TestBundle``
-   by naming this class ``TestBundle`` (and naming the file ``TestBundle.php``).
+   名称 ``AcmeTestBundle`` 组照标准的 :ref:` |bundle| 命名规则<bundles-naming-conventions>` 。
+   也可以将名称简化为 ``TestBundle`` ，该 |class| 的名称则相应更改为 ``TestBundle`` （该文件则命名为 ``TestBundle.php`` ）。
 
-This empty class is the only piece you need to create the new bundle. Though
-commonly empty, this class is powerful and can be used to customize the behavior
-of the bundle.
+这个空 |class| 只是新 |bundle| 所需的一个部分。 尽管它通常是空的，但是 |class| 却是个性化 |bundle| 行为的利器。
 
-Now that you've created the bundle, enable it via the ``AppKernel`` class::
+|bundle| 已经建立，通过 ``AppKernel`` |class| 启用之 ::
 
     // app/AppKernel.php
     public function registerBundles()
@@ -659,65 +568,48 @@ Now that you've created the bundle, enable it via the ``AppKernel`` class::
         return $bundles;
     }
 
-And while it doesn't do anything yet, ``AcmeTestBundle`` is now ready to
-be used.
+尽管它还不能做什么，但是 ``AcmeTestBundle`` 已经做好了应用的准备。
 
-And as easy as this is, Symfony also provides a command-line interface for
-generating a basic bundle skeleton:
+同样简单， Symfony 还提供了一个命令行界面用以生成基础 |bundle| 骨架：
 
 .. code-block:: bash
 
     php app/console generate:bundle --namespace=Acme/TestBundle
 
-The bundle skeleton generates with a basic controller, template and routing
-resource that can be customized. You'll learn more about Symfony2's command-line
-tools later.
+|bundle| 骨架由一组可以个性化设置的基本 |controller| 、 |template| 以及 |routing| 资源构成。
+后面会对 Symfony2 命令行工具进一步介绍。
 
 .. tip::
 
-   Whenever creating a new bundle or using a third-party bundle, always make
-   sure the bundle has been enabled in ``registerBundles()``. When using
-   the ``generate:bundle`` command, this is done for you.
+   在创建一个新 |bundle| 或者开始使用一个第三方 |bundle| 时，总是要确保在 ``registerBundles()`` 中启用之。
+   在使用 ``generate:bundle`` 命令时，这个设备自动完成。
 
-Bundle Directory Structure
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+|bundle| 目录结构
+~~~~~~~~~~~~~
 
-The directory structure of a bundle is simple and flexible. By default, the
-bundle system follows a set of conventions that help to keep code consistent
-between all Symfony2 bundles. Take a look at ``AcmeHelloBundle``, as it contains
-some of the most common elements of a bundle:
+|bundle| 的目录结构简单而且灵活。默认情况， |bundle| 系统遵循保持 Symfony2 |bundle| 一致性的一套规则。
+看一下 ``AcmeHelloBundle``，包括下列通用 |bundle| 原色：
 
-* ``Controller/`` contains the controllers of the bundle (e.g. ``HelloController.php``);
+* ``Controller/`` 存放 |bundle| 的 |controller| （例如：``HelloController.php``  ）；
 
-* ``Resources/config/`` houses configuration, including routing configuration
-  (e.g. ``routing.yml``);
+* ``Resources/config/`` 存放配置信息，包括 |routing| 配置（例如： ``routing.yml`` ）；
 
-* ``Resources/views/`` holds templates organized by controller name (e.g.
-  ``Hello/index.html.twig``);
+* ``Resources/views/`` 存放以 |controller| 名命名管理的 |template| （例如： ``Hello/index.html.twig`` ）；
 
-* ``Resources/public/`` contains web assets (images, stylesheets, etc) and is
-  copied or symbolically linked into the project ``web/`` directory via
-  the ``assets:install`` console command;
+* ``Resources/public/`` 存放网站资源（图片、样式等等）并将 通过 ``assets:install`` 命令被复制或链接到 |project| 的 ``web/`` 目录；
 
-* ``Tests/`` holds all tests for the bundle.
+* ``Tests/`` 存放所有 |bundle| 测试。
 
-A bundle can be as small or large as the feature it implements. It contains
-only the files you need and nothing else.
+ 其中只有实现 |feature| 所需的文件， |bundle| 可能很大，也可能很小。
 
-As you move through the book, you'll learn how to persist objects to a database,
-create and validate forms, create translations for your application, write
-tests and much more. Each of these has their own place and role within the
-bundle.
+本书中将陆续介绍，如何为 |application| 与数据库交互、创建和验证表单、创建翻译以及编写测试等等，每一项工作都在 |bundle| 中有自己的存放位置并充当相应的角色。
 
-Application Configuration
--------------------------
+|application| 配置
+----------------
 
-An application consists of a collection of bundles representing all of the
-features and capabilities of your application. Each bundle can be customized
-via configuration files written in YAML, XML or PHP. By default, the main
-configuration file lives in the ``app/config/`` directory and is called
-either ``config.yml``, ``config.xml`` or ``config.php`` depending on which
-format you prefer:
+|application| 由用以实现其各种 |feature| 和功能的一系列 |bundle| 组成。
+每个 |bundle| 都可以通过 YAML、XML 或者 PHP 格式的配置文件个性化。
+默认情况，主配置文件位于 ``app/config/`` 目录，取决于所使用的格式，名为 ``config.yml`` 、 ``config.xml`` 或者 ``config.php``：
 
 .. configuration-block::
 
@@ -785,43 +677,34 @@ format you prefer:
    You'll learn exactly how to load each file/format in the next section
    `Environments`_.
 
-Each top-level entry like ``framework`` or ``twig`` defines the configuration
-for a particular bundle. For example, the ``framework`` key defines the configuration
-for the core Symfony ``FrameworkBundle`` and includes configuration for the
-routing, templating, and other core systems.
+``framework`` 和 ``twig`` 这些顶级键定义特定 |bundle| 的配置。 ``framework`` 键定义 Symfony 核心 ``FrameworkBundle`` 的配置，
+包括对于 |routing| 、 |template| 以及其他核心系统的引用配置。
 
-For now, don't worry about the specific configuration options in each section.
-The configuration file ships with sensible defaults. As you read more and
-explore each part of Symfony2, you'll learn about the specific configuration
-options of each feature.
+目前不要担心每个部分的具体配置，默认配置已经设置好。 在后面的学习中随之探索 Symfony2 的各个部分，将学到每个 |feature| 的配置。
 
-.. sidebar:: Configuration Formats
+.. sidebar:: 设置文件
 
-    Throughout the chapters, all configuration examples will be shown in all
-    three formats (YAML, XML and PHP). Each has its own advantages and
-    disadvantages. The choice of which to use is up to you:
+    在所有章节中，每个配置范例都将以所有三种格式（YAML、XML 和 PHP）给出。 每一种都有其优劣之处，可以自由选择：
 
-    * *YAML*: Simple, clean and readable;
+    * *YAML*: 简单、干净、可读性强；
 
-    * *XML*: More powerful than YAML at times and supports IDE autocompletion;
+    * *XML*: 有时比 YAML 强大而且支持 IDE 自动完成功能；
 
-    * *PHP*: Very powerful but less readable than standard configuration formats.
+    * *PHP*: 非常强大，但与标准配置文件相比，可读性差。
 
-Default Configuration Dump
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+默认配置 |dump|
+~~~~~~~~~~~
 
 .. versionadded:: 2.1
     The ``config:dump-reference`` command was added in Symfony 2.1
 
-You can dump the default configuration for a bundle in yaml to the console using
-the ``config:dump-reference`` command.  Here is an example of dumping the default
-FrameworkBundle configuration:
+可以通过 ``config:dump-reference`` 命令提取一个 |bundle| 的默认配置。这是一个 |dump| FrameworkBundle 默认配置的例子：
 
 .. code-block:: text
 
     app/console config:dump-reference FrameworkBundle
 
-The extension alias (configuration key) can also be used:
+也可以使用扩展别名（配置键名）：
 
 .. code-block:: text
 
@@ -829,74 +712,60 @@ The extension alias (configuration key) can also be used:
 
 .. note::
 
-    See the cookbook article: :doc:`How to expose a Semantic Configuration for
-    a Bundle</cookbook/bundles/extension>` for information on adding
-    configuration for your own bundle.
+    参阅 cookbook 文章： :doc:`How to expose a Semantic Configuration for
+    a Bundle</cookbook/bundles/extension>` 学习为 |bundle| 增加配置。
 
 .. index::
    single: Environments; Introduction
 
 .. _environments-summary:
 
-Environments
-------------
+环境
+--
 
-An application can run in various environments. The different environments
-share the same PHP code (apart from the front controller), but use different
-configuration. For instance, a ``dev`` environment will log warnings and
-errors, while a ``prod`` environment will only log errors. Some files are
-rebuilt on each request in the ``dev`` environment (for the developer's convenience),
-but cached in the ``prod`` environment. All environments live together on
-the same machine and execute the same application.
+一个 |application| 可以在不同的环境中运行。 不同的环境共享相同的 PHP 代码（除了 |front controller| ）但使用不同的配置。
+例如：  ``dev`` 环境将 |log| 所有的警告和错误， 环境只 |log| 错误。 
+在 ``prod`` 环境中将为每次 |request| 重构某些文件（为了开发的便利），
+但却在 ``prod`` 环境中 |cache| 它们。 所有环境都在一台机器上执行相同的 |application| 。
 
-A Symfony2 project generally begins with three environments (``dev``, ``test``
-and ``prod``), though creating new environments is easy. You can view your
-application in different environments simply by changing the front controller
-in your browser. To see the application in the ``dev`` environment, access
-the application via the development front controller:
+Symfony2 |project| 通常由三个环境开始（ ``dev`` 、 ``test`` 和 ``prod`` ） ，但是建立新环境是非常简单的。
+仅通过访问不同的 |front controller| 就可以在不同环境中查看 |application| 。
+通过开发 |front controller| 访问 |application| ，就可以在  ``dev`` 环境访问 |application|:
 
 .. code-block:: text
 
     http://localhost/app_dev.php/hello/Ryan
 
-If you'd like to see how your application will behave in the production environment,
-call the ``prod`` front controller instead:
+如果希望查成品环境下的 |application| ，可以访问名为 ``prod`` 的 |front controller| ：
 
 .. code-block:: text
 
     http://localhost/app.php/hello/Ryan
 
-Since the ``prod`` environment is optimized for speed; the configuration,
-routing and Twig templates are compiled into flat PHP classes and cached.
-When viewing changes in the ``prod`` environment, you'll need to clear these
-cached files and allow them to rebuild::
+因为 ``prod`` 环境是速度优化的： 配置、 |routing| 和 Twig |template| 都被编译为 PHP |class| 并被缓存。
+为了在 ``prod`` 环境中查看变化，需要清楚缓存的文件，以便重新构建它们::
 
     php app/console cache:clear --env=prod --no-debug
 
 .. note::
 
-   If you open the ``web/app.php`` file, you'll find that it's configured explicitly
-   to use the ``prod`` environment::
+   打开 ``web/app.php`` 文件，将看到使用 ``prod`` 环境的清晰配置::
 
        $kernel = new AppKernel('prod', false);
 
-   You can create a new front controller for a new environment by copying
-   this file and changing ``prod`` to some other value.
+   可以创建一个新的 |front controller| ，拷贝这个文件后将  ``prod`` 改为其他值。
 
 .. note::
 
-    The ``test`` environment is used when running automated tests and cannot
-    be accessed directly through the browser. See the :doc:`testing chapter</book/testing>`
-    for more details.
+    ``test`` 环境用于运行自动测试，不能从 browser 访问它。更详细的信息请查阅 :doc:`testing chapter</book/testing>` 。
 
 .. index::
    single: Environments; Configuration
 
-Environment Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~
+环境配置
+~~~~
 
-The ``AppKernel`` class is responsible for actually loading the configuration
-file of your choice::
+``AppKernel`` |class| 负责夹在所选的配置文件::
 
     // app/AppKernel.php
     public function registerContainerConfiguration(LoaderInterface $loader)
@@ -904,10 +773,8 @@ file of your choice::
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
 
-You already know that the ``.yml`` extension can be changed to ``.xml`` or
-``.php`` if you prefer to use either XML or PHP to write your configuration.
-Notice also that each environment loads its own configuration file. Consider
-the configuration file for the ``dev`` environment.
+如果希望使用 XML 或者 PHP 编写配置，正如之前已经介绍过的，可以 ``.yml`` 扩展名更改为 ``.xml`` 或者 ``.php`` 。
+每个环境家在其自身的配置文件。就 ``dev`` 环境而言，配置文件如下。
 
 .. configuration-block::
 
@@ -949,49 +816,35 @@ the configuration file for the ``dev`` environment.
 
         // ...
 
-The ``imports`` key is similar to a PHP ``include`` statement and guarantees
-that the main configuration file (``config.yml``) is loaded first. The rest
-of the file tweaks the default configuration for increased logging and other
-settings conducive to a development environment.
+``imports`` 键类似于 PHP 的 ``include`` 语句，要确保主配置文件（ ``config.yml`` ）最先被调用。
+该文件的其余部分在默认配置基础上为开发环境增加 |log| 和其他一些设置。
 
-Both the ``prod`` and ``test`` environments follow the same model: each environment
-imports the base configuration file and then modifies its configuration values
-to fit the needs of the specific environment. This is just a convention,
-but one that allows you to reuse most of your configuration and customize
-just pieces of it between environments.
+``prod`` 和 ``test`` 环境有着相似的模式：它们都倒入基础配置文件，然后为特定环境的需要更改设置的值。
+这只是惯例而已，但却做到重用大部分配置并通过很少的修改就为不同环境作了个性化设置。
 
-Summary
--------
+总结
+--
 
-Congratulations! You've now seen every fundamental aspect of Symfony2 and have
-hopefully discovered how easy and flexible it can be. And while there are
-*a lot* of features still to come, be sure to keep the following basic points
-in mind:
+恭喜！ 已经介绍了 Symfony2 的所有基础内容，并且应该已经意识到其便捷和灵活性。
+很多 |feature| 将不断涌现，但要记住如下基本点：
 
-* creating a page is a three-step process involving a **route**, a **controller**
-  and (optionally) a **template**.
+* 创建一个页面需要三个步骤： |**route**| 、 |**controller**| 和可选的 |**template**| 。
 
-* each project contains just a few main directories: ``web/`` (web assets and
-  the front controllers), ``app/`` (configuration), ``src/`` (your bundles),
-  and ``vendor/`` (third-party code) (there's also a ``bin/`` directory that's
-  used to help updated vendor libraries);
+* 每个 |project| 都有几个主要的目录： ``web/`` （网站资源和所有 |front controller| ）、 
+  ``app/`` （配置）、 ``src/`` （被开发的 |bundle| ）以及 ``vendor/`` （第三方代码）（还有一个 ``bin/`` 目录用以帮助更新 |vendor| 库）；
 
-* each feature in Symfony2 (including the Symfony2 framework core) is organized
-  into a *bundle*, which is a structured set of files for that feature;
+* Symfony2 的每个 |feature| （包括 Symfony2 |framework| 的核心）都以 |*bundle*| 形式出现，这是一个实现 |feature| 的文件结构组；
 
-* the **configuration** for each bundle lives in the ``app/config`` directory
-  and can be specified in YAML, XML or PHP;
+* 每个 |bundle| 的 **configuration** 都存储于 ``app/config`` 目录并且可以使用 YAML、 XML 或者 PHP 格式；
 
-* each **environment** is accessible via a different front controller (e.g.
-  ``app.php`` and ``app_dev.php``) and loads a different configuration file.
+* 每个 **环境** 可以都通过不同的 |front controller| （例如： ``app.php`` 和 ``app_dev.php``）调用不同的配置文件来访问。
 
-From here, each chapter will introduce you to more and more powerful tools
-and advanced concepts. The more you know about Symfony2, the more you'll
-appreciate the flexibility of its architecture and the power it gives you
-to rapidly develop applications.
+此后的各章将介绍更加强大的工具和超前的概念。 随着更多地了解 Symfony2，将会为其构架的灵活性和提高开发 |application| 的速度的能力愈发折服。
 
 .. _`Twig`: http://twig.sensiolabs.org
 .. _`third-party bundles`: http://symfony2bundles.org/
 .. _`Symfony Standard Edition`: http://symfony.com/download
 .. _`Apache's DirectoryIndex documentation`: http://httpd.apache.org/docs/2.0/mod/mod_dir.html
 .. _`Nginx HttpCoreModule location documentation`: http://wiki.nginx.org/HttpCoreModule#location
+
+.. include:: ../_terminology.rst

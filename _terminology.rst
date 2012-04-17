@@ -13,7 +13,8 @@
 .. |clone| replace:: 克隆
 .. |check out| replace:: 签出
 .. |project| replace:: 项目
-.. |``Kernel``| replace:: 内核
+.. |Kernel| replace:: 内核
+.. |``Kernel``| replace:: ``内核``
 .. |domain| replace:: 域
 .. |*framework*| replace:: *架构*
 .. |*Symfony2 framework*| replace:: *Symfony2 架构*
@@ -22,13 +23,33 @@
 .. |model| replace:: 模型
 .. |view| replace:: 显示
 .. |layout| replace:: 布局
-.. |controller| replace:: 控制器
-.. |action| replace:: 行为
+.. |routing| replace:: |route|
+.. |**route**| replace:: **route**
 .. |template| replace:: 模板
+.. |**template**| replace:: **模板**
+.. |controller| replace:: 控制器
+.. |**controller**| replace:: **控制器**
+.. |action| replace:: 行为
 .. |render| replace:: 生成
 .. |bundle| replace:: 束丛
+.. |*bundle*| replace:: *束丛*
 .. |route| replace:: 路由
-.. |routing| replace:: |route|
+.. |pattern| replace:: pattern
+.. |feature| replace:: feature
+.. |task|  replace:: task任务
+.. |dump| replace:: 提取
+.. |``pattern``| replace:: ``pattern``
+.. |``defaults``| replace:: ``默认 [default]`` 
+.. |token| replace:: 关键字
+.. |block| replace:: 区块
+.. |bootstrap| replace:: 引导
+.. |cache| replace:: 缓存
+.. |log| replace:: 记录
+.. |autoload| replace:: 自动调用
+.. |autoloader| replace:: 自动调用器
+.. |namespace| replace:: 命名空间
+.. |source| replace:: 源代码
+.. |plugin| replace:: 插件
 .. |caching| replace:: 缓存
 .. |front controller| replace:: 前端控制器
 .. |`front controller`| replace:: `前端控制器`
@@ -61,7 +82,6 @@
 .. |web development| replace:: 网页开发
 .. |request headers| replace:: 请求的头信息[request headers]
 .. |rewrite| replace:: 重写
-
 .. |Retrieve the resource from the server| replace:: 从服务器获取资源
 .. |Create a resource on the server|       replace:: 在服务器上创建一个资源 
 .. |Update the resource on the server|     replace:: 更新服务器上的资源
@@ -73,3 +93,5 @@
 .. |**Poor organization**| replace:: 组织结构差
 .. |**Difficult to reuse code**| replace:: 代码重用困难
 .. |injection| replace:: 注入式
+.. |*Create a route*| replace:: *创建一条路由*
+.. |*Create a controller*| replace:: *创建一个控制器*
